@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script>
+        var about_visible = false;
+        $(document).ready(function(){
+          $("#about").click(function(){
+           about_visible ? $("p").hide() : $("p").show();
+           about_visible = !about_visible;
+         });
+        });
+    </script>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -23,8 +33,10 @@
 
       </header>
       <section>
-        <h1>
-<a id="hello-world" class="anchor" href="#hello-world" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hello World</h1>
+        <button id="about">About</button>
+      </section>
+      <section>
+        <h1><a id="hello-world" class="anchor" href="#hello-world" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hello World</h1>
       </section>
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
