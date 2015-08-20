@@ -12,12 +12,56 @@
       <script>
         var about_visible = false;
         $(document).ready(function(){
+          $("#about_text").hide();
           $("#about").click(function(){
-           about_visible ? $("p").hide() : $("p").show();
+           about_visible ? $("#about_text").hide() : $("#about_text").show();
            about_visible = !about_visible;
          });
         });
     </script>
+
+    <style>
+          .myButton {
+        -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+        background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+        background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+        background-color:#f9f9f9;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        border:1px solid #dcdcdc;
+        display:inline-block;
+        cursor:pointer;
+        color:#666666;
+        font-family:Arial;
+        font-size:15px;
+        font-weight:bold;
+        padding:6px 24px;
+        text-decoration:none;
+        text-shadow:0px 1px 0px #ffffff;
+      }
+      .myButton:hover {
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
+        background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+        background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+        background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+        background:-ms-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+        background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);
+        background-color:#e9e9e9;
+      }
+      .myButton:active {
+        position:relative;
+        top:1px;
+      }
+    </style>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -25,19 +69,33 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Michaelvu97.GitHub.io</h1>
+        <h1>Magic DPM Analysis</h1>
+	<h3>EliseIAintBronze</h3>
         <p></p>
+         <button id="about" class="myButton">About</button>
 
-
-        <p class="view"><a href="https://github.com/michaelvu97">View My GitHub Profile</a></p>
+         <p id="about_text"><b>Objective: Compare changes in magic damage dealt in patch 5.11 and the AP item changes in patch 5.14.</b><br> This project analyzes a set of unranked NA 5v5 games before and after the AP itemization change, and creates a histogram of Magic DPM from both before and after. The purpose is to analyze the change in the overall magic DPM tendency when the AP items were changed.</p>
 
       </header>
       <section>
-        <button id="about">About</button>
+       	
       </section>
       <section>
-        <h1><a id="hello-world" class="anchor" href="#hello-world" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hello World</h1>
+        <h1><a id="hello-world" class="anchor" href="#hello-world" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sub-title goes here</h1>
       </section>
+      <section>
+	<table style="width:100%">
+	  <tr>
+      	    <td>Chart A Title</td>
+	    <td>Chart B Title</td>
+	  </tr>
+	  <tr>
+            <td>A chart will go here</td>
+	    <td>Another will go here</td>
+	  </tr>
+	</table>
+      </section>
+
       <footer>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
