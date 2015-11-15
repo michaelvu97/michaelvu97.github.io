@@ -1,5 +1,29 @@
 <!doctype html>
-<html>
-	<body contenteditable style="background-color:#dddddd;color:#666666;font-family:Sans-Serif;font-size:56px;padding:25px">
+<html style="background-color:#dddddd"
+	<head>
+		<script>
+			function changeToMono() {
+				var body = document.getElementById("content");
+				var monobutton = document.getElementById("mono-button");
+
+				if (monobutton.innerHTML == "Sans-serif")  {
+					body.style.fontFamily = "Sans-serif";
+					monobutton.innerHTML = "Monospace";
+					monobutton.style.fontFamily = "Monospace";
+				} else { 
+					body.style.fontFamily = "monospace";
+					monobutton.innerHTML = "Sans-serif";
+					monobutton.style.fontFamily = "Sans-serif";
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div style="box-shadow: 0px 0px 5px #888888; padding:25px;color:#999999;background-color:#efefef;font-family:Georgia; margin: 3px">
+			<h6 style="color:#555555;text-align:center;font-size:24px;letter-spacing: -3px; margin: 0px auto"><i>Notepad</i>	</h6>
+			<button id="mono-button" onclick="changeToMono()" style="border:0px transparent; outline:0px transparent;padding:3px; font-family:monospace">Monospace</button>
+		</div>
+		<div contenteditable id="content" style="box-shadow: 0px 0px 5px #888888;margin:3px;background-color:#efefef;color:#666666;font-family:Sans-Serif;font-size:24px;padding:25px;height:100%;outline:0px transparent">
+		</div>
 	</body>
 </html>
