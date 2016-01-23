@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<style type="text/css">
+			body {
+				font-family:roboto;
+				text-align: center;
+			}
+			button {
+				width:100px;
+			}
+		</style>
+		<script type="text/javascript">
+			var aIsPlaying = false;
+			var bIsPlaying = false;
+
+			var aInputLink = "https://www.youtube.com/watch?v=nqLArgCbh70";
+			var bInputLink = "https://www.youtube.com/watch?v=nqLArgCbh70";
+
+			var aUsefulPart = "nqLArgCbh70";
+			var bUsefulPart = "nqLArgCbh70";
+
+			
+			
+
+			function loadA() {
+
+			}
+
+			function loadB() {
+
+			}
+
+			function getUsefulPartOfURL (input) {
+				var i = input.indexOf("watch?v=") + 'watch?v='.length;
+				alert(input.substring(i));
+			}
+
+			function playPauseA () {
+				var playerA = document.getElementById('player-a');
+				if (aIsPlaying) {
+					aIsPlaying = false;
+					playerA.pauseVideo();
+				} else {
+					aIsPlaying = true;
+					playerA.playVideo();
+				}
+			}
+
+			function playPauseB () {
+				var playerB = document.getElementById('player-b');
+				if (bIsPlaying) {
+					bIsPlaying = false;
+					playerB.pauseVideo();
+				} else {
+					bIsPlaying = true;
+					playerB.playVideo();
+				}
+			}
+
+			function onYoutubePlayerReady() {
+				alert('a player is ready');
+			}
+		</script>
+	</head>
+	<body>
+		<div id="head">
+			<h1>Youtube Crossfader</h1>
+		</div>
+		<div id="body">
+			<div id="videos">
+				<iframe id="player-a" width="420" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+				<iframe id="player-b" width="420" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div id="loader">
+				<input type="text" size="50" value="https://www.youtube.com/watch?v=nqLArgCbh70">
+				<input type="text" size="50" value="https://www.youtube.com/watch?v=nqLArgCbh70">
+			</div>
+			<div id="buttons">
+				<button onclick="loadA()">Load A</button>
+				<button id="play-a" onclick="playPauseA()">Play A</button>
+				<button id="play-b" onclick="playPauseB()">Play B</button>
+				<button onclick="loadB()">Load B</button>
+			</div>
+		</div>
+	</body>
+</html>
