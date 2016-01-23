@@ -10,17 +10,15 @@
 			}
 		</style>
 		<script type="text/javascript">
+      		
 			var aIsPlaying = false;
 			var bIsPlaying = false;
 
-			var aInputLink = "https://www.youtube.com/watch?v=nqLArgCbh70";
-			var bInputLink = "https://www.youtube.com/watch?v=nqLArgCbh70";
+			var aInputLink = "https://www.youtube.com/watch?v=CJrVZCbKxsE";
+			var bInputLink = "https://www.youtube.com/watch?v=CJrVZCbKxsE";
 
-			var aUsefulPart = "nqLArgCbh70";
-			var bUsefulPart = "nqLArgCbh70";
-
-			
-			
+			var aUsefulPart = "CJrVZCbKxsE";
+			var bUsefulPart = "CJrVZCbKxsE";
 
 			function loadA() {
 
@@ -36,7 +34,7 @@
 			}
 
 			function playPauseA () {
-				var playerA = document.getElementById("player-a");
+				var playerA = document.getElementById("player-a").contentWindow.document.getElementById('movie_player');
 				if (aIsPlaying) {
 					aIsPlaying = false;
 					playerA.pauseVideo();
@@ -47,7 +45,7 @@
 			}
 
 			function playPauseB () {
-				var playerB = document.getElementById("player-b");
+				var playerB = document.getElementById("player-b").contentWindow.document.getElementById('movie_player');
 				if (bIsPlaying) {
 					bIsPlaying = false;
 					playerB.pauseVideo();
@@ -68,8 +66,8 @@
 		</div>
 		<div id="body">
 			<div id="videos">
-				<iframe id="player-a" width="420" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-				<iframe id="player-b" width="420" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+				<iframe id="player-a" width="420" height="315" src="https://www.youtube.com/embed/CJrVZCbKxsE?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
+				<iframe id="player-b" width="420" height="315" src="https://www.youtube.com/embed/CJrVZCbKxsE?enablejsapi=1" frameborder="0" allowfullscreen></iframe>
 			</div>
 			<div id="loader">
 				<input type="text" size="50" value="https://www.youtube.com/watch?v=nqLArgCbh70">
