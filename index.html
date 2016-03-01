@@ -1,18 +1,21 @@
-<!--<body contenteditable style="background-color:#eeeeee;color:#666666;font-family:Sans-Serif;font-size:56px;padding:25px"> -->
 <head>
     <style type = "text/css">
       #paper, #paper:focus {
-        background-color:#eeeeee;
+        background-color:#fff;
         color:#666666;
         font-family:courier;
         font-size:56px;
         padding:25px;
         outline: 0px solid transparent;
         white-space: pre;
+        height: auto; 
+        box-shadow: 0px 0px 8px #ccc;
+        border-radius: 5px;
       }
       h1 {
         font-family: courier;
         text-align: center;
+        color:#333;
       }
     </style>
     <script type="text/javascript">
@@ -114,6 +117,11 @@
       }
 
       function addTab() {
+        /*
+         * Function for overriding adding a tab to the document. Used when
+         * overriding the tab input that results in losing focus of the 
+         * panel.
+         */
         var doc = paper.ownerDocument.defaultView;
         var selection = doc.getSelection();
         var range = selection.getRangeAt(0);
@@ -125,13 +133,18 @@
         selection.addRange(range);
       }
 
+      function clearPage() {
+        paper.html('');
+      }
+
       function isPlaying(audioPlayer) {
           return !audioPlayer.paused;
       }
 
       function play(audioPlayer) {
-          audioPlayer.currentTime = 0;
-          audioPlayer.play();
+        // Overrides the player and starts from the beginning.
+        audioPlayer.currentTime = 0;
+        audioPlayer.play();
       }
 
     </script>
