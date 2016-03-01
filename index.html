@@ -1,29 +1,76 @@
-<!doctype html>
-<html style="background-color:#dddddd"
-	<head>
-		<script>
-			function changeToMono() {
-				var body = document.getElementById("content");
-				var monobutton = document.getElementById("mono-button");
+<!--<body contenteditable style="background-color:#eeeeee;color:#666666;font-family:Sans-Serif;font-size:56px;padding:25px"> -->
+<head>
+    <script type="text/javascript">
 
-				if (monobutton.innerHTML == "Sans-serif")  {
-					body.style.fontFamily = "Sans-serif";
-					monobutton.innerHTML = "Monospace";
-					monobutton.style.fontFamily = "Monospace";
-				} else { 
-					body.style.fontFamily = "monospace";
-					monobutton.innerHTML = "Sans-serif";
-					monobutton.style.fontFamily = "Sans-serif";
-				}
-			}
-		</script>
-	</head>
-	<body>
-		<div style="box-shadow: 0px 0px 5px #888888; padding:25px;color:#999999;background-color:#efefef;font-family:Georgia; margin: 3px">
-			<h6 style="color:#555555;text-align:center;font-size:24px;letter-spacing: -3px; margin: 0px auto"><i>Notepad</i>	</h6>
-			<button id="mono-button" onclick="changeToMono()" style="border:0px transparent; outline:0px transparent;padding:3px; font-family:monospace">Monospace</button>
-		</div>
-		<div contenteditable id="content" style="box-shadow: 0px 0px 5px #888888;margin:3px;background-color:#efefef;color:#666666;font-family:Sans-Serif;font-size:24px;padding:25px;height:100%;outline:0px transparent">
-		</div>
-	</body>
-</html>
+        /*
+         * Key-value pairs for the ids of the sound files.
+         */
+        function getSoundId (input) {
+            if (input === 'KEY_1') return '0Bwi7BfuvEZXsVElDQ0J1dlRvRWc';
+            if (input === 'KEY_2') return '0Bwi7BfuvEZXsbHMzcTFJWVd1Rm8';
+            if (input === 'KEY_3') return '0Bwi7BfuvEZXsNWpnSFRGbFhxeXc';
+            if (input === 'KEY_4') return '0Bwi7BfuvEZXsR1ROYzlNZW9IUVk';
+            if (input === 'LINEBREAK') return '0Bwi7BfuvEZXsQnNWbG1wVnVydjQ';
+            if (input === 'SPACEBAR_1') return '0Bwi7BfuvEZXsOFM0T29LeFpyWWM';
+            if (input === 'SPACEBAR_2') return '0Bwi7BfuvEZXsSk1PLVlpdVhVemM';
+
+            //ID NOT FOUND
+            return 'ERROR_ID_NOT_FOUND';
+        }
+
+        /*
+         * Preloads all the sounds into the audio players.
+         */
+        function loadSounds() {
+            var names = ['KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'LINEBREAK', 'SPACEBAR_1', 'SPACEBAR_2'];
+            for (var i = 0; i < names.length; i++) {
+                document.getElementById(names[i]).src = 'http://docs.google.com/uc?export=open&id=' + getSoundId(names[i]);    
+            }
+        }
+
+        // Handles the sound for a key press.
+        function keyPress(e) {
+            /*
+             * The audio player elements for each keypress.
+             * TODO: ADD A QUEUE SO THAT ONLY ONE SOUND PLAYS, 
+             */
+            var key1Audio = document.getElementById('KEY_1');
+            var key2Audio = document.getElementById('KEY_2');
+            var key3Audio = document.getElementById('KEY_3');
+            var key4Audio = document.getElementById('KEY_4');
+            if (!isPlaying(key1Audio))
+                play(key1Audio)
+            else if (!isPlaying(key2Audio))
+                play(key2Audio)
+            else if (!isPlaying(key3Audio))
+                play(key3Audio)
+            else
+                play(key4Audio)
+        }
+
+        function isPlaying(audioPlayer) {
+            return !audioPlayer.paused;
+        }
+
+        function play(audioPlayer) {
+            audioPlayer.currentTime = 0;
+            audioPlayer.play();
+        }
+
+    </script>
+
+</head>
+
+<body onload="loadSounds()">
+  <audio controls id="KEY_1" >
+    Your browser does not support this function
+  </audio>
+  <audio controls id="KEY_2"></audio>
+  <audio controls id="KEY_3"></audio>
+  <audio controls id="KEY_4"></audio>
+  <audio controls id="LINEBREAK" style="display: none"></audio>
+  <audio controls id="SPACEBAR_1" style="display: none"></audio>
+  <audio controls id="SPACEBAR_2" style="display: none"></audio>
+  <div id="paper" contenteditable style="background-color:#eeeeee;color:#666666;font-family:Sans-Serif;font-size:56px;padding:25px" onkeydown="keyPress()" onload="loadSounds()">
+ 
+</body>
