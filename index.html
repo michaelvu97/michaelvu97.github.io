@@ -1,77 +1,131 @@
-<!--<body contenteditable style="background-color:#eeeeee;color:#666666;font-family:Sans-Serif;font-size:56px;padding:25px"> -->
 <head>
+    <style type = "text/css">
+      #paper, #paper:focus {
+        background-color:#eeeeee;
+        color:#666666;
+        font-family:courier;
+        font-size:56px;
+        padding:25px;
+        outline: 0px solid transparent;
+      }
+      h1 {
+        font-family: courier;
+        text-align: center;
+      }
+    </style>
     <script type="text/javascript">
 
+      /*
+       * Key-value pairs for the ids of the sound files.
+       */
+      function getSoundId (input) {
+        if (input === 'KEY_1') return '0Bwi7BfuvEZXsVElDQ0J1dlRvRWc';
+        if (input === 'KEY_2') return '0Bwi7BfuvEZXsbHMzcTFJWVd1Rm8';
+        if (input === 'KEY_3') return '0Bwi7BfuvEZXsNWpnSFRGbFhxeXc';
+        if (input === 'KEY_4') return '0Bwi7BfuvEZXsR1ROYzlNZW9IUVk';
+        // TODO: get a better linebreak noise, that actually sounds like the slide.
+        if (input === 'LINEBREAK') return '0Bwi7BfuvEZXsQnNWbG1wVnVydjQ';
+        if (input === 'SPACEBAR_1') return '0Bwi7BfuvEZXsOFM0T29LeFpyWWM';
+        if (input === 'SPACEBAR_2') return '0Bwi7BfuvEZXsSk1PLVlpdVhVemM';
+
+        //ID NOT FOUND
+        return 'ERROR_ID_NOT_FOUND';
+      }
+
+      /*
+       * Preloads all the sounds into the audio players.
+       */
+      function loadSounds() {
+
+        var names = ['KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'LINEBREAK', 'SPACEBAR_1', 'SPACEBAR_2'];
+
+        for (var i = 0; i < names.length; i++) {
+          document.getElementById(names[i]).src = 'http://docs.google.com/uc?export=open&id=' + getSoundId(names[i]);    
+        }
+
+        document.addEventListener('keydown', keyPress);
+      }
+
+      // Handles the sound for a key press.
+      function keyPress(e) {
         /*
-         * Key-value pairs for the ids of the sound files.
+         * The audio player elements for each keypress.
+         * TODO: ADD A QUEUE SO THAT ONLY ONE SOUND PLAYS, 
          */
-        function getSoundId (input) {
-            if (input === 'KEY_1') return '0Bwi7BfuvEZXsVElDQ0J1dlRvRWc';
-            if (input === 'KEY_2') return '0Bwi7BfuvEZXsbHMzcTFJWVd1Rm8';
-            if (input === 'KEY_3') return '0Bwi7BfuvEZXsNWpnSFRGbFhxeXc';
-            if (input === 'KEY_4') return '0Bwi7BfuvEZXsR1ROYzlNZW9IUVk';
-            if (input === 'LINEBREAK') return '0Bwi7BfuvEZXsQnNWbG1wVnVydjQ';
-            if (input === 'SPACEBAR_1') return '0Bwi7BfuvEZXsOFM0T29LeFpyWWM';
-            if (input === 'SPACEBAR_2') return '0Bwi7BfuvEZXsSk1PLVlpdVhVemM';
 
-            //ID NOT FOUND
-            return 'ERROR_ID_NOT_FOUND';
-        }
+        if (e.keyCode == 13) {
 
-        /*
-         * Preloads all the sounds into the audio players.
-         */
-        function loadSounds() {
-            var names = ['KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'LINEBREAK', 'SPACEBAR_1', 'SPACEBAR_2'];
-            for (var i = 0; i < names.length; i++) {
-                document.getElementById(names[i]).src = 'http://docs.google.com/uc?export=open&id=' + getSoundId(names[i]);    
-            }
-        }
+          // On linebreak/enter
+          var linebreakAudio = document.getElementById('LINEBREAK');
 
-        // Handles the sound for a key press.
-        function keyPress(e) {
-            /*
-             * The audio player elements for each keypress.
-             * TODO: ADD A QUEUE SO THAT ONLY ONE SOUND PLAYS, 
-             */
-            var key1Audio = document.getElementById('KEY_1');
-            var key2Audio = document.getElementById('KEY_2');
-            var key3Audio = document.getElementById('KEY_3');
-            var key4Audio = document.getElementById('KEY_4');
-            if (!isPlaying(key1Audio))
-                play(key1Audio)
-            else if (!isPlaying(key2Audio))
-                play(key2Audio)
-            else if (!isPlaying(key3Audio))
-                play(key3Audio)
-            else
-                play(key4Audio)
-        }
+          /*
+           * Override the playing check, since there's only one player for 
+           * this.
+           */
+          play(linebreakAudio);
 
-        function isPlaying(audioPlayer) {
-            return !audioPlayer.paused;
-        }
+        } else if (e.keyCode == 32) {
 
-        function play(audioPlayer) {
-            audioPlayer.currentTime = 0;
-            audioPlayer.play();
+          // On spacebar
+          var spacebarAudio1 = document.getElementById('SPACEBAR_1');
+          var spacebarAudio2 = document.getElementById('SPACEBAR_2');
+
+          /*
+           * Two buffers so that the sound doesn't get overwritten often.
+           */
+          if (!isPlaying(spacebarAudio1))
+            play(spacebarAudio1);
+          else
+            play(spacebarAudio2);
+
+        } else {
+
+          // Every other key.
+          var key1Audio = document.getElementById('KEY_1');
+          var key2Audio = document.getElementById('KEY_2');
+          var key3Audio = document.getElementById('KEY_3');
+          var key4Audio = document.getElementById('KEY_4');
+
+          /*
+           * Buffered fourfold so that the sounds can flow smoothly and not 
+           * get cut off early.
+           */
+          if (!isPlaying(key1Audio))
+            play(key1Audio);
+          else if (!isPlaying(key2Audio))
+            play(key2Audio);
+          else if (!isPlaying(key3Audio))
+            play(key3Audio);
+          else
+            play(key4Audio);
+
         }
+      }
+
+      function isPlaying(audioPlayer) {
+          return !audioPlayer.paused;
+      }
+
+      function play(audioPlayer) {
+          audioPlayer.currentTime = 0;
+          audioPlayer.play();
+      }
 
     </script>
 
 </head>
 
 <body onload="loadSounds()">
-  <audio controls id="KEY_1" >
+  <audio id="KEY_1">
     Your browser does not support this function
   </audio>
-  <audio controls id="KEY_2"></audio>
-  <audio controls id="KEY_3"></audio>
-  <audio controls id="KEY_4"></audio>
-  <audio controls id="LINEBREAK" style="display: none"></audio>
-  <audio controls id="SPACEBAR_1" style="display: none"></audio>
-  <audio controls id="SPACEBAR_2" style="display: none"></audio>
-  <h1 style="font-family: courier">Typewriter Simulator</h1>
-  <div id="paper" contenteditable style="background-color:#eeeeee;color:#666666;font-family:courier;font-size:56px;padding:25px" onkeydown="keyPress()" onload="loadSounds()">
+  <audio id="KEY_2"></audio>
+  <audio id="KEY_4"></audio>
+  <audio id="KEY_3"></audio>
+  <audio id="LINEBREAK"></audio>
+  <audio id="SPACEBAR_1"></audio>
+  <audio id="SPACEBAR_2"></audio>
+  <h1>Typewriter Simulator</h1>
+  <div id="paper" contenteditable onload="loadSounds()">
  
 </body>
