@@ -1,3 +1,4 @@
+<!--<body contenteditable style="background-color:#eeeeee;color:#666666;font-family:Sans-Serif;font-size:56px;padding:25px"> -->
 <head>
     <style type = "text/css">
       #paper, #paper:focus {
@@ -7,6 +8,7 @@
         font-size:56px;
         padding:25px;
         outline: 0px solid transparent;
+        white-space: pre;
       }
       h1 {
         font-family: courier;
@@ -52,6 +54,15 @@
          * The audio player elements for each keypress.
          * TODO: ADD A QUEUE SO THAT ONLY ONE SOUND PLAYS, 
          */
+        
+        if (e.keyCode == 9) {
+
+          // Override default tab-key functionality to insert whitespace.
+          e.preventDefault();
+          addTab();
+
+          // Now it  will go to thespace keypress sound.
+        } 
 
         if (e.keyCode == 13) {
 
@@ -64,9 +75,9 @@
            */
           play(linebreakAudio);
 
-        } else if (e.keyCode == 32) {
+        } else if (e.keyCode == 32 || e.keyCode == 9) {
 
-          // On spacebar
+          // On spacebar or tab
           var spacebarAudio1 = document.getElementById('SPACEBAR_1');
           var spacebarAudio2 = document.getElementById('SPACEBAR_2');
 
@@ -100,6 +111,18 @@
             play(key4Audio);
 
         }
+      }
+
+      function addTab() {
+        var doc = paper.ownerDocument.defaultView;
+        var selection = doc.getSelection();
+        var range = selection.getRangeAt(0);
+        var tabNode = document.createTextNode('\u00a0\u00a0\u00a0\u00a0');
+        range.insertNode(tabNode);
+        range.setStartAfter(tabNode);
+        range.setEndAfter(tabNode);
+        selection.removeAllRanges();
+        selection.addRange(range);
       }
 
       function isPlaying(audioPlayer) {
