@@ -21,31 +21,14 @@
     <script type="text/javascript">
 
       /*
-       * Key-value pairs for the ids of the sound files.
-       */
-      function getSoundId (input) {
-        if (input === 'KEY_1') return '0Bwi7BfuvEZXsVElDQ0J1dlRvRWc';
-        if (input === 'KEY_2') return '0Bwi7BfuvEZXsbHMzcTFJWVd1Rm8';
-        if (input === 'KEY_3') return '0Bwi7BfuvEZXsNWpnSFRGbFhxeXc';
-        if (input === 'KEY_4') return '0Bwi7BfuvEZXsR1ROYzlNZW9IUVk';
-        // TODO: get a better linebreak noise, that actually sounds like the slide.
-        if (input === 'LINEBREAK') return '0Bwi7BfuvEZXsQnNWbG1wVnVydjQ';
-        if (input === 'SPACEBAR_1') return '0Bwi7BfuvEZXsOFM0T29LeFpyWWM';
-        if (input === 'SPACEBAR_2') return '0Bwi7BfuvEZXsSk1PLVlpdVhVemM';
-
-        //ID NOT FOUND
-        return 'ERROR_ID_NOT_FOUND';
-      }
-
-      /*
        * Preloads all the sounds into the audio players.
        */
       function loadSounds() {
 
-        var names = ['KEY_1', 'KEY_2', 'KEY_3', 'KEY_4', 'LINEBREAK', 'SPACEBAR_1', 'SPACEBAR_2'];
+        var names = ['key_1', 'key_1', 'key_3', 'key_4', 'linebreak', 'spacebar_1', 'spacebar_2'];
 
         for (var i = 0; i < names.length; i++) {
-          document.getElementById(names[i]).src = 'http://docs.google.com/uc?export=open&id=' + getSoundId(names[i]);    
+          document.getElementById(names[i]).src = '//sound/' + names[i]+ '.wav';
         }
 
         document.addEventListener('keydown', keyPress);
@@ -67,10 +50,10 @@
           // Now it  will go to thespace keypress sound.
         } 
 
-        if (e.keyCode == 13) {
+        if (e && e.keyCode == 13) {
 
           // On linebreak/enter
-          var linebreakAudio = document.getElementById('LINEBREAK');
+          var linebreakAudio = document.getElementById('linebreak');
 
           /*
            * Override the playing check, since there's only one player for 
@@ -78,11 +61,11 @@
            */
           play(linebreakAudio);
 
-        } else if (e.keyCode == 32 || e.keyCode == 9) {
+        } else if (e && e.keyCode == 32 || e.keyCode == 9) {
 
           // On spacebar or tab
-          var spacebarAudio1 = document.getElementById('SPACEBAR_1');
-          var spacebarAudio2 = document.getElementById('SPACEBAR_2');
+          var spacebarAudio1 = document.getElementById('spacebar_1');
+          var spacebarAudio2 = document.getElementById('spacebar_2');
 
           /*
            * Two buffers so that the sound doesn't get overwritten often.
@@ -95,10 +78,10 @@
         } else {
 
           // Every other key.
-          var key1Audio = document.getElementById('KEY_1');
-          var key2Audio = document.getElementById('KEY_2');
-          var key3Audio = document.getElementById('KEY_3');
-          var key4Audio = document.getElementById('KEY_4');
+          var key1Audio = document.getElementById('key_1');
+          var key2Audio = document.getElementById('key_2');
+          var key3Audio = document.getElementById('key_3');
+          var key4Audio = document.getElementById('key_4');
 
           /*
            * Buffered fourfold so that the sounds can flow smoothly and not 
@@ -152,15 +135,15 @@
 </head>
 
 <body onload="loadSounds()">
-  <audio id="KEY_1">
+  <audio id="key_1">
     Your browser does not support this function
   </audio>
-  <audio id="KEY_2"></audio>
-  <audio id="KEY_4"></audio>
-  <audio id="KEY_3"></audio>
-  <audio id="LINEBREAK"></audio>
-  <audio id="SPACEBAR_1"></audio>
-  <audio id="SPACEBAR_2"></audio>
+  <audio id="key_2"></audio>
+  <audio id="key_4"></audio>
+  <audio id="key_3"></audio>
+  <audio id="linebreak"></audio>
+  <audio id="spacebar_1"></audio>
+  <audio id="spacebar_2"></audio>
   <h1>Typewriter Simulator</h1>
   <div id="paper" contenteditable onload="loadSounds()">
  
