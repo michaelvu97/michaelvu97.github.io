@@ -8,14 +8,24 @@
         padding:25px;
         outline: 0px solid transparent;
         white-space: pre;
-        height: auto; 
+      }
+      #paper-outer {
+        background-color: #fff;
         box-shadow: 0px 0px 8px #ccc;
         border-radius: 5px;
+        height:100%;
       }
       h1 {
-        font-family: courier;
+        font-family: sans-serif;
         text-align: center;
-        color:#333;
+        color:#555;
+        margin-bottom: -5px;
+      }
+      p {
+        text-align: center;
+        color:#777;
+        font-family: sans-serif;
+        font-style: italic;
       }
     </style>
     <script type="text/javascript">
@@ -32,6 +42,7 @@
         }
 
         document.addEventListener('keydown', keyPress);
+        document.getElementById('paper').focus();
       }
 
       // Handles the sound for a key press.
@@ -144,7 +155,16 @@
   <audio id="linebreak"></audio>
   <audio id="spacebar_1"></audio>
   <audio id="spacebar_2"></audio>
-  <h1>Typewriter Simulator</h1>
-  <div id="paper" contenteditable onload="loadSounds()">
- 
+  <div class="headline">
+    <div class="centered">
+      <h1>Typewriter Simulator</h1>
+      <p>Best served with jazz and rain.</p>
+    </div>
+    <div class="options">
+
+    </div>
+  </div>
+  <div id="paper-outer">
+    <div id="paper" contenteditable onload="loadSounds()"></div>
+  </div>
 </body>
