@@ -27,8 +27,31 @@
         font-family: sans-serif;
         font-style: italic;
       }
+      .options {
+        margin-top: -80px;
+        position: absolute;
+      }
+      .options:hover {
+        animation-name: optionsRotate;
+        animation-duration:1s;
+        animation-timing-function: ease-in-out;
+      }
+      @keyframes optionsRotate {
+        from {
+          -ms-transform: rotate(0deg);
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        to {
+          -ms-transform: rotate(360deg);
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
     </style>
     <script type="text/javascript">
+
+      var paper;
 
       /*
        * Preloads all the sounds into the audio players.
@@ -42,7 +65,7 @@
         }
 
         document.addEventListener('keydown', keyPress);
-        document.getElementById('paper').focus();
+        paper = document.getElementById('paper');
       }
 
       // Handles the sound for a key press.
@@ -51,62 +74,63 @@
          * The audio player elements for each keypress.
          * TODO: ADD A QUEUE SO THAT ONLY ONE SOUND PLAYS, 
          */
-        
-        if (e.keyCode == 9) {
+        if (document.getElementById('paper') === document.activeElement ) {
+          if (e.keyCode == 9) {
 
-          // Override default tab-key functionality to insert whitespace.
-          e.preventDefault();
-          addTab();
+            // Override default tab-key functionality to insert whitespace.
+            e.preventDefault();
+            addTab();
 
-          // Now it  will go to thespace keypress sound.
-        } 
+            // Now it  will go to thespace keypress sound.
+          } 
 
-        if (e && e.keyCode == 13) {
+          if (e && e.keyCode == 13) {
 
-          // On linebreak/enter
-          var linebreakAudio = document.getElementById('linebreak');
+            // On linebreak/enter
+            var linebreakAudio = document.getElementById('linebreak');
 
-          /*
-           * Override the playing check, since there's only one player for 
-           * this.
-           */
-          play(linebreakAudio);
+            /*
+             * Override the playing check, since there's only one player for 
+             * this.
+             */
+            play(linebreakAudio);
 
-        } else if (e && e.keyCode == 32 || e.keyCode == 9) {
+          } else if (e && e.keyCode == 32 || e.keyCode == 9) {
 
-          // On spacebar or tab
-          var spacebarAudio1 = document.getElementById('spacebar_1');
-          var spacebarAudio2 = document.getElementById('spacebar_2');
+            // On spacebar or tab
+            var spacebarAudio1 = document.getElementById('spacebar_1');
+            var spacebarAudio2 = document.getElementById('spacebar_2');
 
-          /*
-           * Two buffers so that the sound doesn't get overwritten often.
-           */
-          if (!isPlaying(spacebarAudio1))
-            play(spacebarAudio1);
-          else
-            play(spacebarAudio2);
+            /*
+             * Two buffers so that the sound doesn't get overwritten often.
+             */
+            if (!isPlaying(spacebarAudio1))
+              play(spacebarAudio1);
+            else
+              play(spacebarAudio2);
 
-        } else {
+          } else {
 
-          // Every other key.
-          var key1Audio = document.getElementById('key_1');
-          var key2Audio = document.getElementById('key_2');
-          var key3Audio = document.getElementById('key_3');
-          var key4Audio = document.getElementById('key_4');
+            // Every other key.
+            var key1Audio = document.getElementById('key_1');
+            var key2Audio = document.getElementById('key_2');
+            var key3Audio = document.getElementById('key_3');
+            var key4Audio = document.getElementById('key_4');
 
-          /*
-           * Buffered fourfold so that the sounds can flow smoothly and not 
-           * get cut off early.
-           */
-          if (!isPlaying(key1Audio))
-            play(key1Audio);
-          else if (!isPlaying(key2Audio))
-            play(key2Audio);
-          else if (!isPlaying(key3Audio))
-            play(key3Audio);
-          else
-            play(key4Audio);
+            /*
+             * Buffered fourfold so that the sounds can flow smoothly and not 
+             * get cut off early.
+             */
+            if (!isPlaying(key1Audio))
+              play(key1Audio);
+            else if (!isPlaying(key2Audio))
+              play(key2Audio);
+            else if (!isPlaying(key3Audio))
+              play(key3Audio);
+            else
+              play(key4Audio);
 
+          }
         }
       }
 
@@ -158,13 +182,13 @@
   <div class="headline">
     <div class="centered">
       <h1>Typewriter Simulator</h1>
-      <p>Best served with jazz and rain.</p>
+      <p>Best served with jazz and rain</p>
     </div>
     <div class="options">
-
+      <img src="http://michaelvu97.github.com/image/gear.png" height="64px" width="64px" style="pointer-events: none">
     </div>
   </div>
-  <div id="paper-outer">
+  <div id="paper-outer" onclick="paper.focus()">
     <div id="paper" contenteditable onload="loadSounds()"></div>
   </div>
 </body>
