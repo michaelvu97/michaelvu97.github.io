@@ -2,9 +2,9 @@
     <style type = "text/css">
       #paper, #paper:focus {
         background-color:#fff;
-        color:#666666;
+        color:#000;
         font-family:courier;
-        font-size:56px;
+        font-size:36px;
         padding:25px;
         outline: 0px solid transparent;
         white-space: pre;
@@ -14,6 +14,8 @@
         box-shadow: 0px 0px 8px #ccc;
         border-radius: 5px;
         height:100%;
+        width:70%;
+        margin: 0px auto;
       }
       h1 {
         font-family: sans-serif;
@@ -30,6 +32,9 @@
       .options {
         margin-top: -80px;
         position: absolute;
+        animation-name: optionsRotateBack;
+        animation-duration: 1s;
+        animation-timing-function: ease-in-out;
       }
       .options:hover {
         animation-name: optionsRotate;
@@ -46,6 +51,18 @@
           -ms-transform: rotate(360deg);
           -webkit-transform: rotate(360deg);
           transform: rotate(360deg);
+        }
+      }
+      @keyframes optionsRotateBack {
+        from {
+          -ms-transform: rotate(360deg);
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+        to {
+          -ms-transform: rotate(0deg);
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
         }
       }
     </style>
