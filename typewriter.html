@@ -16,6 +16,8 @@
         height:100%;
         width:70%;
         margin: 0px auto;
+        position: relative;
+        top: 0px;
       }
       h1 {
         font-family: sans-serif;
@@ -66,9 +68,12 @@
         }
       }
     </style>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
     <script type="text/javascript">
 
-      var paper;
+      var paper, paperOuter;
 
       /*
        * Preloads all the sounds into the audio players.
@@ -83,6 +88,65 @@
 
         document.addEventListener('keydown', keyPress);
         paper = document.getElementById('paper');
+        paperOuter = document.getElementById('paper-outer');
+      }
+
+      function getCursorPosition () {
+        /*
+         * Returns the cursor's line number (starting at 0)
+         */
+
+         var offset = 0;
+
+         if (typeof window.getSelection != 'undefined') {
+           var range = window.getSelection().getRangeAt(0);
+           var preCaretRange = range.cloneRange();
+           preCaretRange.selectNodeContents(paper);
+           preCaretRange.setEnd(range.endContainer, range.endOffset);
+           offset = preCaretRange.toString().length;
+         } else if ((selection = document.selection) && selection.type !='Control') {
+           console.log('block2');
+           var textRange = selection.createRange();
+           var preCaretRange = document.body.createTextRange();
+           preCaretTextRange.moveToElementText(paper);
+           preCaretTextRange.setEndPoint('EndToEnd', textRange);
+           offset = preCaretTextRange.text.length;
+         }
+         
+
+         /*
+          * Go through all the text until the selection number is reached, 
+          * figure out which line it is.
+          */
+
+         // The object containing all of the line-divs.
+         var lines = $('#paper div');
+
+         // Counter for finding which line the offset is in.
+         var totalLength = $('#paper').text().length;
+         
+         // Append the first line to the front of the array
+         var lineText = new Array(lines.length + 1);
+         lineText[0] = $('#paper').text();
+         var lengthOfEveryOtherLine = 0;
+         for (var i = 0; i < lines.length; i++) {
+           lineText[i+1] = lines.get(i).innerHTML;
+           lengthOfEveryOtherLine += lines.get(i).innerHTML.length;
+         }  
+         lineText[0] = lineText[0].substring(0, totalLength - lengthOfEveryOtherLine);
+
+         var currentCharacterSum = 0;
+         var i, j;
+         for (i = 0; i < lineText.length && currentCharacterSum < offset; i++) {
+           for (j = 0; j < lineText[i].length && currentCharacterSum < offset; j++) {
+             currentCharacterSum++;
+           }
+         }
+         return  i;
+      }
+
+      function setPageVerticalPosition(offset) {
+        $('#paper-outer').css('top',  -1 * offset);
       }
 
       // Handles the sound for a key press.
@@ -91,6 +155,11 @@
          * The audio player elements for each keypress.
          * TODO: ADD A QUEUE SO THAT ONLY ONE SOUND PLAYS, 
          */
+
+        // DEBUG update the current line number
+        var lineNumber = getCursorPosition();
+        $('#paper-outer').css('top', -36 * (lineNumber - 1));
+
         if (document.getElementById('paper') === document.activeElement ) {
           if (e.keyCode == 9) {
 
@@ -98,7 +167,7 @@
             e.preventDefault();
             addTab();
 
-            // Now it  will go to thespace keypress sound.
+            // Now it  will go to the space keypress sound.
           } 
 
           if (e && e.keyCode == 13) {
