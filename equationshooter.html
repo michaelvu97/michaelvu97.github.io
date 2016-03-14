@@ -2,15 +2,18 @@
 	<style type="text/css">
         #canvas-container {
             border-style: solid;
+            width: 700px;
         }
 	</style>
+    <script src="https://www.gjp.cc/projects/logic_tables.js">
+    </script>
 	<script type="text/javascript">
         "use strict";
         function initialize () {
             
         }
         
-        const defaultPlayerRadius = 5;
+        const defaultPlayerRadius = 15;
         
         class Player {
             constructor(x, y) {
@@ -26,12 +29,20 @@
             console.log('submit');
             player1 = new Player(175,250);
             player2 = new Player(525,250);
+            
+            draw();
 		}
         
         function draw() {
             var canvas = document.getElementById('main-canvas').getContext('2d');
             canvas.fillStyle = '#FF0000';
+            
+            // Player 1
+            canvas.beginPath();
             canvas.arc(player1.x, player1.y, defaultPlayerRadius, 0, 2*Math.PI);
+            canvas.stroke();
+            canvas.beginPath();
+            canvas.arc(player2.x, player2.y, defaultPlayerRadius, 0, 2*Math.PI);
             canvas.stroke();
         }
 	</script>
