@@ -8,6 +8,19 @@
             color:#555;
             letter-spacing: 2px;
         }
+        .fade-in {
+            animation-name: fadein;
+            animation-duration: 1s;
+            animation-timing-function: ease-in-out;
+        }
+        @keyframes fadein {
+            from {
+                opacity:0;
+            }
+            to {
+                opacity:100;
+            }
+        }
         #head-title {
             font-size: 32px;
         }
@@ -15,32 +28,58 @@
             text-align: center;
             margin: 15px 15px 15px 15px;
         }
+        #cell-controller {
+            text-align: center;
+            font-size:24px;
+            margin-bottom:15px;
+        }
         .cell {
-            box-shadow: 0px 0px 5px #ccc;
+            box-shadow: 0px 0px 10px #ddd;
             margin: 0px auto;
-            padding: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
             width: 33%;
+            animation-name: fadein;
+            animation-duration: 1s;
+            animation-timing-function: ease-in-out;
+            cursor: pointer;
+        }
+        .cell-title {
+            font-size: 18px;
+            text-align: center;
         }
         .cell-date {
-            color:#555;
+            color:#555;            
+            text-align: right;
+            font-size: 16px;
+
         }
-        .cell-link {
-            
+        .cell-description {
+            text-align:right;
         }
         a:-webkit-any-link {
             text-decoration: none;
             color: #555;
         }
+
         </style>
     </head>
     <body>
         <div class="title-bar">
-            <p id="head-title">Michael Vu <light>Engineering Portfolio</light></p>
+            <p id="head-title">Michael Vu <light class="fade-in">Engineering & Design Portfolio</light></p>
         </div>
-        <div class = "cell">
-            <p class = "cell-title">Communication App for Nonverbal Palliative Patients</h2>
+        <div id = "cell-controller">
+            <p>Software</p>
+        </div>
+        <div class = "cell" onclick="window.open('https://github.com/michaelvu97/lodestar')">
+            <p class = "cell-title">Lodestar</p>
+            <p class = "cell-date">February 2015</p>
+            <p class = "cell-description">A top down spaceship shooter made in Java from scratch</p>
+        </div>
+        <div class = "cell" onclick="window.open('https://play.google.com/store/apps/details?id=com.sinus.nonverbalcommunicationfree')">
+            <p class = "cell-title">Communication App for Nonverbal Palliative Patients</p>
             <p class="cell-date">November 2014</p>
-            <a class="cell-link" href = "https://play.google.com/store/apps/details?id=com.sinus.nonverbalcommunicationfree">Link</a>
+            <p class = "cell-description">Android app which aides communication with nonverbal or young patients</p>
         </div>
     </body>
 </head>
