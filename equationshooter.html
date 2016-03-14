@@ -5,8 +5,6 @@
             width: 700px;
         }
 	</style>
-    <script src="https://www.gjp.cc/projects/logic_tables.js">
-    </script>
 	<script type="text/javascript">
         "use strict";
         function initialize () {
@@ -31,6 +29,13 @@
             player2 = new Player(525,250);
             
             draw();
+
+            // Get the expression from the input bar
+            var expression = document.getElementById('expressions').value;
+            var exprFunc = Function(expression);
+            
+            // This calls whatever was typed into the bar as a js function
+            exprFunc();
 		}
         
         function draw() {
@@ -39,10 +44,10 @@
             
             // Player 1
             canvas.beginPath();
-            canvas.arc(player1.x, player1.y, defaultPlayerRadius, 0, 2*Math.PI);
+            canvas.arc(player1.x, player1.y, defaultPlayerRadius,0, 2*Math.PI);
             canvas.stroke();
             canvas.beginPath();
-            canvas.arc(player2.x, player2.y, defaultPlayerRadius, 0, 2*Math.PI);
+            canvas.arc(player2.x, player2.y, defaultPlayerRadius,0, 2*Math.PI);
             canvas.stroke();
         }
 	</script>
@@ -52,6 +57,6 @@
     <div id="canvas-container">
         <canvas id="main-canvas" width="700" height="500"></canvas>
 	</div>
-    <input></input>
-    <button onclick="submit()">Fire</button>
+    <input id="expressions"></input>
+    <button onclick="submit()">Submit</button>s
 </body>
