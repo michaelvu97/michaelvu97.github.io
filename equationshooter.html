@@ -1,11 +1,16 @@
 <head>
 	<style type="text/css">
+        #canvas-container {
+            border-style: solid;
+        }
 	</style>
 	<script type="text/javascript">
         "use strict";
         function initialize () {
             
         }
+        
+        const defaultPlayerRadius = 5;
         
         class Player {
             constructor(x, y) {
@@ -19,13 +24,23 @@
         
 		function submit () {
             console.log('submit');
-            player1 = new Player(350,250);
+            player1 = new Player(175,250);
+            player2 = new Player(525,250);
 		}
+        
+        function draw() {
+            var canvas = document.getElementById('main-canvas').getContext('2d');
+            canvas.fillStyle = '#FF0000';
+            canvas.arc(player1.x, player1.y, defaultPlayerRadius, 0, 2*Math.PI);
+            canvas.stroke();
+        }
 	</script>
 </head>
 <body onload="initialize()">
 	<h1>Title</h1>
-	<canvas id="main-canvas" width="700" height="500"></canvas>
-	<input></input>
+    <div id="canvas-container">
+        <canvas id="main-canvas" width="700" height="500"></canvas>
+	</div>
+    <input></input>
     <button onclick="submit()">Fire</button>
 </body>
