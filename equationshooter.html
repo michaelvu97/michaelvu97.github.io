@@ -11,7 +11,11 @@
             
         }
         
-        const defaultPlayerRadius = 15;
+        const DEFAULT_PLAYER_RADIUS = 15;
+        const FRAME_WIDTH = 700;
+        const FRAME_HEIGHT = 500;
+
+        var fx = [];
         
         class Player {
             constructor(x, y) {
@@ -20,35 +24,58 @@
             }
         };
         
-        var player1;
-        var player2;
+        var player1 = new Player(175,250);
+        var player2 = new Player(525,250);
         
 		function submit () {
             console.log('submit');
-            player1 = new Player(175,250);
-            player2 = new Player(525,250);
             
             draw();
 
             // Get the expression from the input bar
             var expression = document.getElementById('expressions').value;
-            var exprFunc = Function(expression);
+            var exprFunc = Function.apply(null, ['x',expression]);
             
             // This calls whatever was typed into the bar as a js function
             exprFunc();
+
+            for (var x = 0; x < FRAME_WIDTH; x++) {
+                fx[x] = exprFunc(x);
+            }
+            console.log(fx);
+            draw();
 		}
+
+        function drawFunction(func, canvas) {
+            // Draw an individual function from an array
+            // Eventually fix this so that it is origin around the player
+            canvas.strokeStyle = '#ff0000';
+            for (var x = 0; x < FRAME_WIDTH - 1; x++) {
+                canvas.beginPath();
+                canvas.moveTo(x,func[x]);
+                canvas.lineTo(x + 1, func[x+1]);
+                canvas.stroke();
+            }
+        }
         
         function draw() {
             var canvas = document.getElementById('main-canvas').getContext('2d');
+
+            // Clear the canvas
+            canvas.fillStyle = '#ffffff'
+            canvas.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
             canvas.fillStyle = '#FF0000';
             
-            // Player 1
+            // Players
             canvas.beginPath();
-            canvas.arc(player1.x, player1.y, defaultPlayerRadius,0, 2*Math.PI);
+            canvas.arc(player1.x, player1.y, DEFAULT_PLAYER_RADIUS,0, 2*Math.PI);
             canvas.stroke();
             canvas.beginPath();
-            canvas.arc(player2.x, player2.y, defaultPlayerRadius,0, 2*Math.PI);
+            canvas.arc(player2.x, player2.y, DEFAULT_PLAYER_RADIUS,0, 2*Math.PI);
             canvas.stroke();
+
+            drawFunction(fx, canvas);
         }
 	</script>
 </head>
