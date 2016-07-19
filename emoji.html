@@ -1,0 +1,145 @@
+<head>
+    <style type="text/css">
+    @font-face {
+            font-family: "Open Sans Emoji";
+            src: url(OpenSansEmoji.ttf) format("truetype");
+    }
+    span {
+        font-family: "Open Sans Emoji";
+        font-size: 48px;
+    }   
+    textarea {
+        font-family: "Open Sans Emoji";
+        width: 100%;
+    }
+    html {
+        font-family: "Open Sans Emoji";
+        padding:15px;
+    }
+    button {
+        border: none;
+        margin: 10px;
+        margin-left: 2px;
+        margin-right: 2px;
+        padding: 10px;
+    }
+    #buttons {
+        display:table;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #slider {
+        font-size:16px;
+        display: table;
+        margin-left:auto;
+        margin-right:auto;
+    }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type = "text/javascript">
+
+        // Populate emoticons
+        var emoticons = []
+        for (var i = 128513; i <= 128591; i++) {
+            if (!(i >= 128577 && i <= 128580))
+                emoticons.push(i)
+        }
+        for (var i = 128657; i <= 128704; i++) {
+            emoticons.push(i)   
+        }
+        for (var i = 128056; i <= 128176; i++) {
+            if (i!=128063 && i!=128065)
+                emoticons.push(i)
+        }
+
+        var cleared = false
+
+        var rawOutput = ''
+        
+
+        // Clear the text field when this starts
+        $(document).ready(function() {
+            $('#text-input').focus(function() {
+                if (!cleared) {
+                    cleared = true;
+                    $('#text-input').text('')
+                }
+            })
+        })
+
+        function emojify () {
+            var textArea = $('#text-input')
+            var input    = textArea.val()
+
+            // The gap of words between spamming emojis
+            var frequency = 0
+            var index   = 0
+            var indexPre = 0
+
+            // Clear the span
+            $('#output').empty()
+            while (index < input.length && index >= 0) {
+                frequency = $('#frequency-input').val()
+                if (frequency > 100) 
+                    frequency = 100
+                if (frequency < 0)
+                    frequency = 1
+                if (frequency == '')
+                    frequency = 50
+
+                frequency /= 100
+
+                var wordGap = (1 / frequency) - 1
+
+                indexPre = index
+                console.log(wordGap)
+                // Skip to the next section
+                for (var g = 0; g <= wordGap; g++) {
+                    index = input.indexOf(' ', index + 1);
+                }
+
+                $('#output').append(input.substring(indexPre, index))
+                rawOutput = rawOutput + input.substring(indexPre, index)
+
+                var emojiChainLength = Math.floor(Math.random()*3) + 1
+                for (var v = 0; v < emojiChainLength; v++) {
+                    // Pick a random emoji
+                    
+                    var emojiCode = randomEmoji()
+                    var emoji = codeToEmoji(emojiCode)
+                    var elementAsText = '<img alt="' + emoji + '" src="http://apps.timwhitlock.info/static/images/emoji/emoji-android/' + emojiCode.toString(16) + '.png">'
+                    rawOutput = rawOutput + emoji;
+                    $('#output').append(elementAsText)
+                }
+            }
+        }
+        function randomEmoji () {
+            var range = emoticons.length
+            var num = emoticons[Math.floor(Math.random() * range)]
+            return num
+        }
+        function codeToEmoji(code) {
+            return String.fromCodePoint('0x' + code.toString(16))
+        }
+        function copyToClipboard() {
+            window.prompt("Ctrl+C : ", rawOutput)
+        }
+    </script>
+</head>
+<body>
+    <h1 style="text-align:center">Emojipasta creator</h1>
+    <textarea rows="10" cols="50" id="text-input">
+    Insert text here...
+    </textarea> 
+    <br>
+    <span id="slider">
+    Frequency <input type="text" placeHolder="50" defaultValue="50" id="frequency-input"></input>%
+    </span>
+    <br>
+    <div id="buttons">
+        <button onclick="emojify()" id="emoji-button">Emoji my pasta</button>
+        <button onclick="copyToClipboard()" id="copy-button">Copy to clipboard</button>
+    </div>
+    <br>
+    <span id="output"></span>
+</body>
