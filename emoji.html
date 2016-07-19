@@ -92,24 +92,25 @@
                 var wordGap = (1 / frequency) - 1
 
                 indexPre = index
-                console.log(wordGap)
                 // Skip to the next section
                 for (var g = 0; g <= wordGap; g++) {
                     index = input.indexOf(' ', index + 1);
                 }
 
-                $('#output').append(input.substring(indexPre, index))
-                rawOutput = rawOutput + input.substring(indexPre, index)
+                if (index >= 0) {
+                    $('#output').append(input.substring(indexPre, index))
+                    rawOutput = rawOutput + input.substring(indexPre, index)
 
-                var emojiChainLength = Math.floor(Math.random()*3) + 1
-                for (var v = 0; v < emojiChainLength; v++) {
-                    // Pick a random emoji
-                    
-                    var emojiCode = randomEmoji()
-                    var emoji = codeToEmoji(emojiCode)
-                    var elementAsText = '<img alt="' + emoji + '" src="http://apps.timwhitlock.info/static/images/emoji/emoji-android/' + emojiCode.toString(16) + '.png">'
-                    rawOutput = rawOutput + emoji;
-                    $('#output').append(elementAsText)
+                    var emojiChainLength = Math.floor(Math.random()*3) + 1
+                    for (var v = 0; v < emojiChainLength; v++) {
+                        // Pick a random emoji
+                        
+                        var emojiCode = randomEmoji()
+                        var emoji = codeToEmoji(emojiCode)
+                        var elementAsText = '<img alt="' + emoji + '" src="http://apps.timwhitlock.info/static/images/emoji/emoji-android/' + emojiCode.toString(16) + '.png">'
+                        rawOutput = rawOutput + emoji;
+                        $('#output').append(elementAsText)
+                    }
                 }
             }
         }
