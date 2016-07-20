@@ -1,5 +1,24 @@
 <head>
     <style type="text/css">
+        body {
+            font-family:sans-serif;
+
+        }
+        button {
+            border:none;
+            padding: 12px;
+            padding-left: 50px;
+            padding-right: 50px;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button:active {
+            background: rgb(150,150,150);
+        }
+        button:focus {
+            outline: 0;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript">
@@ -39,7 +58,7 @@
                         'jeans',
                         'terrorism',
                         'server language',
-                        'garbage
+                        'garbage'
                     ]
 
     function generateIdea () {
@@ -66,5 +85,5 @@
 <body>
     <h1 style="text-align:center">Awful Idea Generator</h1>
     <button onclick="updateIdeaOutput()">New Idea</button>
-    <p id="output"></p>
+    <p id="output" style="text-align:center"></p>
 </body>
