@@ -1,0 +1,70 @@
+<head>
+    <style type="text/css">
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+    var adjectives =[
+                        'The Uber of {0}',
+                        'A mobile port of {0}',
+                        'Next-gen {0}',
+                        'Forward-thinking {0}',
+                        'Minimalist {0}',
+                        'Urban {0}',
+                        'Glow in the dark {0}',
+                        'Slimmer {0}',
+                        "I can't belive it's not {0}!",
+                        'Environmentally friendly {0}',
+                        '{0}-gate',
+                        'World-class {0}',
+                        '{0} with guns',
+                        'edible {0}',
+                        'genetically engineered {0}',
+                        'A war on {0}',
+                        'Naturally occuring {0}',
+                        'Pay-to-win {0}',
+                        'Carbon fiber {0}',
+                        'Recycled {0}'
+                    ]
+    var nouns     = [
+                        'abortions',
+                        'fish-o-filet from McDonalds',
+                        'networking',
+                        'shoelaces',
+                        'e-sports',
+                        'marketing',
+                        'concerts',
+                        'algorithms',
+                        'racing',
+                        'dinnerware',
+                        'jeans',
+                        'terrorism',
+                        'server language',
+                        'garbage
+                    ]
+
+    function generateIdea () {
+        var randOne = Math.floor(Math.random() * adjectives.length)
+        var randTwo = Math.floor(Math.random() * nouns.length)
+        var idea    = adjectives[randOne].format(nouns[randTwo])
+        return idea
+    }
+
+    function updateIdeaOutput () {
+        $('#output').text(generateIdea())
+    }
+
+    String.prototype.format = function() {
+        var content = this
+        for (var i=0; i < arguments.length; i++) {
+           var replacement = '{' + i + '}'
+           content = content.replace(replacement, arguments[i]); 
+        }
+        return content
+    }
+    </script>
+</head>
+<body>
+    <h1 style="text-align:center">Awful Idea Generator</h1>
+    <button onclick="updateIdeaOutput()">New Idea</button>
+    <p id="output"></p>
+</body>
