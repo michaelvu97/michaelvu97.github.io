@@ -6,6 +6,49 @@
     </script> -->
     <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            margin:0px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #banner {
+            font-size: 64px;
+            padding-top:5px;
+            padding-bottom:5px;
+        }
+        #top-bar {
+            background-color:#ddd;
+        }
+        td {
+            padding: 5px;
+        }
+        #you-owe, #they-owe {
+            margin-right: auto;
+            margin-left: auto;
+        }
+        button {
+            border: none;
+            display: inline-block;
+            background-color: #afa;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        button:focus {
+            border: none;
+            outline: none;
+            background-color: #7f7;
+        }
+        #login-button {
+            margin-bottom: 15px;
+        }
+    </style>
 
     <script>
         // Initialize Firebase
@@ -19,13 +62,35 @@
     </script>
     <script>
         var currentUserID
+        var loggedIn
 
         function init () {
-            currentUser = localStorage.getItem('currentUserID')
-            if (currentUser == null || currentUser == 'null') {
-                login()
+            currentUserID = localStorage.getItem('currentUserID')
+            if (currentUserID == null || currentUserID == 'null') {
+                loggedIn = false
             } else {
                 console.log('already logged in')
+                loggedIn = true
+            }
+            updateLoginButton()
+        }
+
+        function loginButton () {
+            var button = $('#login-button')
+            if (loggedIn)
+                logout()
+            else
+                login()
+
+            updateLoginButton()
+        }
+
+        function updateLoginButton () {
+            var button = $('#login-button')
+            if (loggedIn) {
+                button.html('Logout')
+            } else {
+                button.html('Login')
             }
         }
 
@@ -46,6 +111,8 @@
                 
                 console.log(name + ' ' + uid)
                 setUser({name: name, uid: uid})
+                loggedIn = true
+                updateLoginButton()
             }).catch(function(error) {
                 // Handle Errors here.
                 var errorCode = error.code
@@ -55,12 +122,17 @@
                 var email = error.email
                 // The firebase.auth.AuthCredential type that was used.
                 var credential = error.credential
+                loggedIn = false
+                updateLoginButton()
             });
+            
         }
 
         function logout() {
             currentUser = null
             localStorage.setItem('currentUserID', null)
+            loggedIn = false
+            updateLoginButton()
         }
 
         function transaction (user_a_ID, user_b_ID, amount) {
@@ -69,12 +141,45 @@
              */ 
 
             // Get inital values
-            firebase.database().ref('users/' + user_a_ID + '/owings/' + user_b_ID).once('value').then(function (snapshot) {
-                    var final_amount = amount + snapshot.val()
+            firebase.database().ref('users/' + user_a_ID).once('value').then(function (snapshot) {
+                    var name_a = snapshot.val().name
+                    var name_b
                     
-                    // Update the values
-                    firebase.database().ref('users/' + user_a_ID + '/owings/' + user_b_ID).set(final_amount)
-                    firebase.database().ref('users/' + user_b_ID + '/owings/' + user_a_ID).set(-1 * final_amount)
+                    var previousTransaction = true
+                    // Check if there exists any previous transaction data
+                    try {
+                        name_b = snapshot.val().owings[user_b_ID].name
+                    } catch (error) {
+                        console.log('no previous transation data exists')
+                        previousTransaction = false
+                    }
+
+                    if (previousTransaction) {
+                        var owed   = snapshot.val().owings[user_b_ID].owe
+                        var amount_a = amount + owed
+                        var amount_b = -1 * amount_a
+
+                        // Update the values
+                        var aRef = firebase.database().ref('users/' + user_a_ID + '/owings/' + user_b_ID)
+                        var bRef = firebase.database().ref('users/' + user_b_ID + '/owings/' + user_a_ID)
+
+                        aRef.set({name:name_b,owe:amount_a})
+                        bRef.set({name:name_a,owe:amount_b})
+                    } else {
+                        firebase.database().ref('users/' + user_b_ID).once('value').then(function (snapshot2) {
+                            name_b = snapshot2.val().name
+                            var amount_a = amount
+                            var amount_b = -1 * amount_a
+
+                            // Update the values
+                            var aRef = firebase.database().ref('users/' + user_a_ID + '/owings/' + user_b_ID)
+                            var bRef = firebase.database().ref('users/' + user_b_ID + '/owings/' + user_a_ID)
+
+                            aRef.set({name:name_b,owe:amount_a})
+                            bRef.set({name:name_a,owe:amount_b})
+                        })
+                    }
+                    
             })
             
         }
@@ -107,6 +212,49 @@
             })
         }
 
+        function populateUserOwings () {
+            /*
+             * Gets all the current users' owings and displays them in the 
+             * document.
+             */
+            firebase.database().ref('users/' + currentUserID + '/owings').once('value').then( function (snapshot) {
+
+                var userList = snapshot.val()
+
+                // List of users that the client owes money to
+                var positiveOwers = []
+
+                // List of users that owe the client money
+                var negativeOwers = []
+
+                // Populate the lists
+                for (var property in userList) {
+                    if (userList.hasOwnProperty(property)) {
+                        var userObj = userList[property]
+                        var name = userObj.name
+                        var owed = userObj.owe
+                        if (owed > 0) {
+                            positiveOwers.push(userObj)
+                        }
+                        if (owed < 0) {
+                            negativeOwers.push(userObj)
+                        }
+                    }
+                }
+
+                for (var i = 0; i < positiveOwers.length; i++) {
+                    var element = '<tr><td>' + positiveOwers[i].name + '</td><td>' + positiveOwers[i].owe + '</td></tr>'
+
+                    $('#you-owe').append(element)
+                } 
+                for (var i = 0; i < negativeOwers.length; i++) {
+                    var element = '<tr><td>' + negativeOwers[i].name + '</td><td>' + negativeOwers[i].owe + '</td></tr>'
+
+                    $('#they-owe').append(element)
+                }
+            })
+        }
+
         function checkExistingConnections (user) {
             /*
              * Searches the connection list and sees if connections were made 
@@ -116,4 +264,21 @@
     </script>
 </head>
 <body onload="init()">
+    <div id="top-bar">
+        <h1 id="banner">IOU</h1>
+        <div style="text-align:center">
+            <button id="login-button" onclick="loginButton()">Login</button>
+        </div>
+    </div>
+
+    <div id="owing-tables">
+        <h1>You Owe</h1>
+        <table id="you-owe">
+
+        </table>
+        <h1>Owes You</h1>
+        <table id="they-owe">
+
+        </table>
+    </div>
 </body>
