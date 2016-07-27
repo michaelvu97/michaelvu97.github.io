@@ -1,0 +1,119 @@
+<head>
+
+    <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js">
+    </script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-storage.js"> 
+    </script> -->
+    <script src="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/0.4/firebase-ui-auth.css" />
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDULA9Ud9DHXY5xvts39uKqV8AGShKVzT4",
+            authDomain: "ioweyou-2c935.firebaseapp.com",
+            databaseURL: "https://ioweyou-2c935.firebaseio.com",
+            storageBucket: "",
+        }
+        firebase.initializeApp(config)
+    </script>
+    <script>
+        var currentUserID
+
+        function init () {
+            currentUser = localStorage.getItem('currentUserID')
+            if (currentUser == null || currentUser == 'null') {
+                login()
+            } else {
+                console.log('already logged in')
+            }
+        }
+
+        function login() {
+            var provider = new firebase.auth.FacebookAuthProvider()
+            provider.addScope('public_profile')
+            firebase.auth().signInWithPopup(provider).then(function(result) {
+                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+                var token = result.credential.accessToken
+                    // The signed-in user info.
+                var currentUser   = result.user
+                var name = currentUser.displayName
+                var uid  = currentUser.uid
+                currentUserID = uid
+
+                // save the login data into localstorage
+                localStorage.setItem('currentUserID', currentUserID)
+                
+                console.log(name + ' ' + uid)
+                setUser({name: name, uid: uid})
+            }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code
+                var errorMessage = error.message
+                console.log(errorMessage)
+                // The email of the user's account used.
+                var email = error.email
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential
+            });
+        }
+
+        function logout() {
+            currentUser = null
+            localStorage.setItem('currentUserID', null)
+        }
+
+        function transaction (user_a_ID, user_b_ID, amount) {
+            /*
+             * Positive amount owed to b by a
+             */ 
+
+            // Get inital values
+            firebase.database().ref('users/' + user_a_ID + '/owings/' + user_b_ID).once('value').then(function (snapshot) {
+                    var final_amount = amount + snapshot.val()
+                    
+                    // Update the values
+                    firebase.database().ref('users/' + user_a_ID + '/owings/' + user_b_ID).set(final_amount)
+                    firebase.database().ref('users/' + user_b_ID + '/owings/' + user_a_ID).set(-1 * final_amount)
+            })
+            
+        }
+
+        function testy () {
+            transaction('OyKajX50OIRpKakWFzBW54N5xrA3','testy',100)
+        }
+
+        function setUser (user) {
+            /*
+             * Puts a user's data into the database
+             */
+
+            // Check new user
+            firebase.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
+                    console.log(snapshot.val())
+                    if (snapshot.val()) {
+                        // User exists
+                        console.log('user exists')
+                    } else {
+                        // User does not exist
+
+                        //TODO make this work
+                        checkExistingConnections()
+
+                        firebase.database().ref('users/' + user.uid).set({
+                            name: user.name
+                        })
+                    }
+            })
+        }
+
+        function checkExistingConnections (user) {
+            /*
+             * Searches the connection list and sees if connections were made 
+             * before the user was created
+             */
+        }
+    </script>
+</head>
+<body onload="init()">
+</body>
