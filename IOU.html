@@ -80,66 +80,118 @@
     </script>
 
     <script>
+
+
         var currentUserID
         var loggedIn
         var accessToken
 
+
         function init () {
+            /*
+             * Runs once the body is loaded.
+             * Initial function.
+             */
+
+            // Retrieve any cached data.
             currentUserID = localStorage.getItem('currentUserID')
+
             if (currentUserID == null || currentUserID == 'null') {
+                /*
+                 * No cached data; user not logged in.
+                 */
                 loggedIn = false
+
             } else {
+                /*
+                 * Already logged in.
+                 */
+
                 console.log('already logged in')
                 loggedIn = true
+                FB.login( function (response) {
+                        console.log(response)
+                    },
+                    {scope:'user_friends'}
+                )
+
                 FB.getLoginStatus(function(response) {
+
+                    console.log('response = ' + response.status)
+
                     if (response.status === 'connected') {
+
                         console.log('Logged in.');
-                    }
-                    else {
+                        accessToken = response.authResponse.accessToken
+
+                    } else {
+
                         FB.login(function (response){
-                            //handle the reponse
+
+                            console.log('secondary fb login')
+
                         },
                         {scope:'user_friends'})
-                        console.log('secondary fb login')
+                        
                     }
+
                 })
-                FB.getLoginStatus(function(response) {
-                    if (response.status === 'connected') {
-                       accessToken = response.authResponse.accessToken;
-                    } 
-                })
+
                 populateUserOwings()
+
             }
+
             updateLoginButton()
         }
 
+
         function loginButton () {
+
             var button = $('#login-button')
+
             if (loggedIn)
                 logout()
             else
                 login()
 
             updateLoginButton()
+
         }
+
 
         function updateLoginButton () {
+
             var button = $('#login-button')
-            if (loggedIn) {
+
+            if (loggedIn)
                 button.html('Logout')
-            } else {
+            else
                 button.html('Login')
-            }
+
         }
 
+
         function login() {
+
             var provider = new firebase.auth.FacebookAuthProvider()
+
+            /*
+             * Facebook API permissions.
+             */
             provider.addScope('public_profile')
             provider.addScope('user_friends')
+
+            /*
+             * Firebase/Facebook login.
+             */
             firebase.auth().signInWithPopup(provider).then(function(result) {
+
                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
                 var token = result.credential.accessToken
-                    // The signed-in user info.
+
+                /*
+                 * The signed-in user info.
+                 */
                 var currentUser   = result.user
                 console.log(currentUser)
                 var name = currentUser.displayName
@@ -147,78 +199,154 @@
                 var fbID = currentUser.providerData[0].uid
                 currentUserID = uid
 
-                // save the login data into localstorage
+                FB.login( function (response) {
+
+                        if (response.authResponse) {
+
+                            accessToken = response.authResponse.accessToken
+                            
+                        }
+                    },
+                    {scope:'user_friends'}
+                )
+
+                // Save the login data into localstorage.
                 localStorage.setItem('currentUserID', currentUserID)
                 
                 console.log(name + ' ' + uid)
+
+                // Submit the user to the database
                 setUser({name: name, uid: uid, fbID: fbID})
+
                 loggedIn = true
+
+                /*
+                 * Post-login operations.
+                 */
                 updateLoginButton()
                 populateUserOwings()
+
             }).catch(function(error) {
+
                 // Handle Errors here.
                 var errorCode = error.code
                 var errorMessage = error.message
                 console.log(errorMessage)
+
                 // The email of the user's account used.
                 var email = error.email
+
                 // The firebase.auth.AuthCredential type that was used.
                 var credential = error.credential
                 loggedIn = false
                 updateLoginButton()
+
             });
             
         }
 
+
         function logout() {
+            /*
+             * Logs the user and clear's them from localstorage.
+             */
+
             currentUser = null
             localStorage.setItem('currentUserID', null)
             loggedIn = false
+
+            // Toggle login button
             updateLoginButton()
         }
+
 
         function transaction (user_a_ID, user_b_ID, amount) {
             /*
              * Positive amount owed to b by a
              */ 
+            firebase.database().ref('users/' + user_a_ID).once('value').then(
 
-            // Get inital values
-            firebase.database().ref('users/' + user_a_ID).once('value').then(function (snapshot) {
+                function (snapshot) {
+
+                    /*
+                     * Get both usernames
+                     */
                     var name_a = snapshot.val().name
                     var name_b
                     
+                    /*
+                     * Check for any previous transaction data, because it 
+                     * changes how the database writes the transaction.
+                     */
                     var previousTransaction = true
-                    // Check if there exists any previous transaction data
                     try {
+
+                        /*
+                         * Retrieve the user's name from the previous 
+                         * transaction.
+                         */
                         name_b = snapshot.val().owings[user_b_ID].name
+
                     } catch (error) {
+
+                        /*
+                         * No previous transaction data
+                         */
                         console.log('no previous transation data exists')
                         previousTransaction = false
+
                     }
 
                     if (previousTransaction) {
+                        /*
+                         * Proceed with the transaction as though there were
+                         * transaction history.
+                         */
+
+                        /*
+                         * Calculate the resulting amount owed by 
+                         * parties.
+                         */
                         var owed   = snapshot.val().owings[user_b_ID].owe
                         var amount_a = amount + owed
                         var amount_b = -1 * amount_a
 
-                        // Update the values
-                        var aRef = firebase.database().ref('users/' + user_a_ID + '/owings/' + user_b_ID)
-                        var bRef = firebase.database().ref('users/' + user_b_ID + '/owings/' + user_a_ID)
-
+                        /*
+                         * Change the owing values in the database.
+                         */
+                        var aRef = firebase.database().ref
+                            ('users/' + user_a_ID + '/owings/' + user_b_ID)
+                        var bRef = firebase.database().ref
+                            ('users/' + user_b_ID + '/owings/' + user_a_ID)
                         aRef.set({name:name_b,owe:amount_a})
                         bRef.set({name:name_a,owe:amount_b})
+
                     } else {
+                        /*
+                         * There was no history, so we have to lookup user_b's
+                         * name to complete the transaction.
+                         */
+
                         firebase.database().ref('users/' + user_b_ID).once('value').then(function (snapshot2) {
+
+                            // Get name
                             name_b = snapshot2.val().name
+
+                            /*
+                             * Calculate the resulting amount owed by 
+                             * parties.
+                             */
                             var amount_a = amount
                             var amount_b = -1 * amount_a
 
-                            // Update the values
+                            /*
+                             * Change the owing values in the database.
+                             */
                             var aRef = firebase.database().ref('users/' + user_a_ID + '/owings/' + user_b_ID)
                             var bRef = firebase.database().ref('users/' + user_b_ID + '/owings/' + user_a_ID)
-
                             aRef.set({name:name_b,owe:amount_a})
                             bRef.set({name:name_a,owe:amount_b})
+
                         })
                     }
                     
@@ -226,42 +354,64 @@
             
         }
 
+
         function testy () {
+            /*
+             * Test function please ignore.
+             */
             transaction('OyKajX50OIRpKakWFzBW54N5xrA3','testy',100)
         }
 
+
         function setUser (user) {
             /*
-             * Puts a user's data into the database
+             * Puts a user's data into the database.
              */
 
-            // Check new user
+            /*
+             * Check if new user.
+             */
             firebase.database().ref('users/' + user.uid).once('value').then(function (snapshot) {
+
                     console.log(snapshot.val())
+
                     if (snapshot.val()) {
                         // User exists
+
                         console.log('user exists')
+
                     } else {
                         // User does not exist
 
                         //TODO make this work
                         checkExistingConnections()
 
+                        /*
+                         * Add the user to the database.
+                         */
                         firebase.database().ref('users/' + user.uid).set({
                             name: user.name,
                             fbID: user.fbID
                         })
+
                     }
+
             })
         }
+
 
         function populateUserOwings () {
             /*
              * Gets all the current users' owings and displays them in the 
              * document.
              */
+
+            // Debug
+            console.log('populating')
+
             firebase.database().ref('users/' + currentUserID + '/owings').once('value').then( function (snapshot) {
 
+                // The list of owing users.
                 var userList = snapshot.val()
 
                 // List of users that the client owes money to
@@ -270,43 +420,100 @@
                 // List of users that owe the client money
                 var negativeOwers = []
 
-                // Populate the lists
+                /* 
+                 * Populate the lists
+                 */
                 for (var property in userList) {
+
                     if (userList.hasOwnProperty(property)) {
+
+                        /*
+                         * Retrieve the selected user data.
+                         */
                         var userObj = userList[property]
                         var name = userObj.name
                         var owed = userObj.owe
+
+                        /*
+                         * Pick the proper list to put the user into.
+                         * TODO: handle even (owed == 0) balances.
+                         */
                         if (owed > 0) {
                             positiveOwers.push(userObj)
                         }
                         if (owed < 0) {
                             negativeOwers.push(userObj)
                         }
+
                     }
+
                 }
 
+                /*
+                 * Populate the document table with the owings.
+                 * TODO: clear the table every time this runs.
+                 * TODO: add interactivity to quickly make a transaction.
+                 */
                 for (var i = 0; i < positiveOwers.length; i++) {
+
                     var element = '<tr><td>' + positiveOwers[i].name + '</td><td>' + positiveOwers[i].owe + '</td></tr>'
 
                     $('#you-owe').append(element)
+
                 } 
                 for (var i = 0; i < negativeOwers.length; i++) {
+
                     var element = '<tr><td>' + negativeOwers[i].name + '</td><td>' + negativeOwers[i].owe + '</td></tr>'
 
                     $('#they-owe').append(element)
+
                 }
+
             })
+
         }
+
 
         function checkExistingConnections (user) {
             /*
              * Searches the connection list and sees if connections were made 
-             * before the user was created
+             * before the user was created.
              */
         }
+
+
+        function getFriendList () {
+            /*
+             * Retrieves the FB friends that use the app for the currently 
+             * logged in user.
+             */
+
+            FB.api('/me/friends', function (response) {
+
+                if (response && !response.error) {
+                    // Successful retrieval
+
+                    console.log(response)
+                } else {
+                    // Unsuccessful
+
+                    console.log(response.error)
+
+                }
+
+            })
+
+        }
+
+
     </script>
+
 </head>
-<body onload="init()">
+
+
+
+
+<body>
     <div id="top-bar">
         <h1 id="banner">IOU</h1>
         <div style="text-align:center">
