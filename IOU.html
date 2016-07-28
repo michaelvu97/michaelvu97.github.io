@@ -60,9 +60,29 @@
         }
         firebase.initializeApp(config)
     </script>
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '287626634961337',
+          xfbml      : true,
+          version    : 'v2.7'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <script>
         var currentUserID
         var loggedIn
+        var accessToken
 
         function init () {
             currentUserID = localStorage.getItem('currentUserID')
@@ -71,6 +91,24 @@
             } else {
                 console.log('already logged in')
                 loggedIn = true
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        console.log('Logged in.');
+                    }
+                    else {
+                        FB.login(function (response){
+                            //handle the reponse
+                        },
+                        {scope:'user_friends'})
+                        console.log('secondary fb login')
+                    }
+                })
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                       accessToken = response.authResponse.accessToken;
+                    } 
+                })
+                populateUserOwings()
             }
             updateLoginButton()
         }
@@ -97,22 +135,26 @@
         function login() {
             var provider = new firebase.auth.FacebookAuthProvider()
             provider.addScope('public_profile')
+            provider.addScope('user_friends')
             firebase.auth().signInWithPopup(provider).then(function(result) {
                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
                 var token = result.credential.accessToken
                     // The signed-in user info.
                 var currentUser   = result.user
+                console.log(currentUser)
                 var name = currentUser.displayName
                 var uid  = currentUser.uid
+                var fbID = currentUser.providerData[0].uid
                 currentUserID = uid
 
                 // save the login data into localstorage
                 localStorage.setItem('currentUserID', currentUserID)
                 
                 console.log(name + ' ' + uid)
-                setUser({name: name, uid: uid})
+                setUser({name: name, uid: uid, fbID: fbID})
                 loggedIn = true
                 updateLoginButton()
+                populateUserOwings()
             }).catch(function(error) {
                 // Handle Errors here.
                 var errorCode = error.code
@@ -206,7 +248,8 @@
                         checkExistingConnections()
 
                         firebase.database().ref('users/' + user.uid).set({
-                            name: user.name
+                            name: user.name,
+                            fbID: user.fbID
                         })
                     }
             })
@@ -268,6 +311,12 @@
         <h1 id="banner">IOU</h1>
         <div style="text-align:center">
             <button id="login-button" onclick="loginButton()">Login</button>
+        </div>
+    </div>
+
+    <div id="transaction">
+        <div style="text-align:center">
+            <button id="new-iou" onclick="newIOU()">New IOU</button>
         </div>
     </div>
 
