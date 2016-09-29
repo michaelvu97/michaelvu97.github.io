@@ -1,0 +1,56 @@
+<head>
+	<style>
+		*
+		{
+			font-family:Sans-serif;
+			text-align:center;
+		}
+		div
+		{
+			text-align:left;
+		}
+	</style>
+	<script type="text/javascript">
+		
+		function go () {
+			var fileName = document.getElementById('filename-input').value
+			var digits   = parseInt(document.getElementById('digits-input').value)
+			document.getElementById('output').innerHTML = generate(fileName, digits).replace(/(?:\r\n|\r|\n)/g, '<br />')
+		}
+
+		function generate (fileName, digits) {
+			var output = ""
+			output = "vlib work\n"
+			output += "vlog " + fileName + ".v\n"
+			output  += "vsim " + fileName + "\n"
+			output += "log {/*}\nadd wave {/*}\n\n"	
+			
+			
+			for (var i = 0; i < Math.pow(2,digits); i++) {
+				var bits = [0];
+				var j = i;
+				while (j > 0) {
+					var size = Math.floor(Math.log(j)/Math.log(2));
+					console.log(size);
+					bits[size] = 1;
+					j -= Math.pow(2,size);
+					console.log(j);
+				}
+				for (var k = 0; k < digits; k++) {
+					output+= "force {SW[" + k + "]} " + (bits[k] ? '1' : '0') + "\n"
+				}
+				output += "run 10ns\n\n"
+			}
+			return output;
+		}
+	</script>
+</head>
+<body>	
+	<h1>make .do</h1>
+	<p>Filename</p>
+	<input id="filename-input"></input>
+	<p>Number of digits</p>
+	<input id="digits-input"></input>
+	<button onclick="go()">GO</button>
+	<div contenteditable id="output"></div>
+</body>
