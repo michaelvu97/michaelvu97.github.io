@@ -1,0 +1,52 @@
+<head>
+    <style>
+        body {
+            text-align:center;
+            font-family: sans-serif;
+        }
+        h1 {
+            
+
+        }
+        button {
+            margin-top: 10px;
+        }
+        input {
+            width: 60%;
+            height: 30%;
+        }
+    </style>
+    <script type="text/javascript">
+
+        //var delta = "&#x0394";
+        var delta = "\u0394";
+
+        function doIt() {
+            // Get Input
+            var input = document.getElementById('input').value.toString();
+            
+            // Replace d with delta
+            var index = input.indexOf('d');
+            while (index != -1) {
+                input = input.substring(0,index) + delta + 
+                        input.substring(index + 1);
+                index = input.indexOf('d');
+            }
+
+            // Change output
+            document.getElementById('output').innerHTML = input;
+
+        }
+    </script>
+</head>
+<body>
+    <h1>&#x0394<i></i>eltafy</h1>
+    <h4>Input</h4>
+    <!--<input id="input">
+    </input>-->
+    <textarea cols="40" rows="8" id="input"></textarea>
+    <br>
+    <button onclick="doIt()">&#x0394O IT!</button>
+    <h4>Output</h4>
+    <textarea cols="40" rows="8" id="output"></textarea>
+</body>
