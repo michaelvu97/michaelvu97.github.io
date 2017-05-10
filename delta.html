@@ -33,6 +33,14 @@
                 index = input.indexOf('d');
             }
 
+            // Replace D with delta
+            var index = input.indexOf('D');
+            while (index != -1) {
+                input = input.substring(0,index) + delta + 
+                        input.substring(index + 1);
+                index = input.indexOf('D');
+            }
+
             // Change output
             document.getElementById('output').innerHTML = input;
 
