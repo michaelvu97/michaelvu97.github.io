@@ -42,6 +42,7 @@ header {
     font-weight: 100;
     text-align: center;
     color: #111;
+    margin:10px;
 }
 tiles {
     overflow-y:scroll;
