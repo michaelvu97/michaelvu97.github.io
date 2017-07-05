@@ -48,6 +48,8 @@ tiles {
     overflow-y:scroll;
     columns: 350px 3;
     flex: 1;
+    max-width:1602px;
+    margin: 0px auto;
 }
 tile {
 }
