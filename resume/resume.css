@@ -46,6 +46,7 @@ header {
 tiles {
     overflow-y:scroll;
     columns: 32vw 3;
+    flex: 1;
 }
 tile {
 }
