@@ -94,7 +94,6 @@ tile {
 }
 .item-notes {
     display:flex;
-    font-style: italic;
     font-size: 0.9em;
     flex-wrap: wrap;
     user-select: none;
