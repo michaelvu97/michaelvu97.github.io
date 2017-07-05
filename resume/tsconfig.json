@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "none", // THE ERROR IS HERE, LOOK INTO WEBPACK
+        "sourceMap": false,
+        "target": "es6",
+        "lib": ["es6", "es2015", "es2015.iterable", "dom"]
+    },
+    "compileOnSave": true,
+    "include": [
+        "*.ts"
+    ]
+}

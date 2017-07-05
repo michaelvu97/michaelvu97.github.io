@@ -1,0 +1,96 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+header {
+    border-bottom:1px #eee solid;
+    padding:20px;
+    margin:20px;
+}
+.alt-font {
+    font-family: 'Raleway', sans-serif;
+}
+.header-content {
+    width:100%;
+    padding: 0px auto;
+}
+.title-name {
+    font-weight: 800;
+    font-size: 3em;
+    text-align: center;
+}
+.title-tagline {
+    font-style: italic;
+    font-size: 1.25em;
+    font-weight: 100;
+    text-align: center;
+    color: #111;
+}
+tiles {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    align-content:flex-start;
+}
+tile {
+    flex: 1;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+.tile-buffer {
+    width: 500px;
+    max-width: 80vw;
+    padding:10px;
+}
+.tile-content {
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1), 
+                0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+    padding:10px;
+    margin: auto;
+}
+.tile-title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 7px;
+}
+.tile-body {
+    padding: 15px;
+    font-size: 1.25em;
+}
+.item {
+    min-height: 50px;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0px;
+}
+.item.last {
+    border: none;
+}
+.item-title {
+    font-family: Roboto, sans-serif;
+    padding: 3px;
+}
+.item-notes {
+    display:flex;
+    font-style: italic;
+    font-size: 0.9em;
+    flex-wrap: wrap;
+}
+.item-notes span {
+    font-family: monospace;
+    margin:4px;
+    padding: 4px;
+    background-color:#def0e5;
+    border-radius:2px;
+    flex: 1;
+    flex-grow: 0;
+    white-space: nowrap;
+}
+.item-description {
+    list-style-position: inside;
+    font-size: 0.8em;
+}
+.item-link {
+
+}
