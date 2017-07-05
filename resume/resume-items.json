@@ -172,8 +172,100 @@
                     "links": []
                 }
             ]
+        },
+        {
+            "sectionName": "Awards",
+            "items": [
+                {
+                    "title":"2nd Place Daisy Intelligence Hackathon",
+                    "notes": [
+                        "C"
+                    ],
+                    "itemDescription": "Place 2nd in an AI competition with 2 teammates.\nDesigned an constant-time algorithm for playing ultimate tic-tac-toe.\n$650 cash prize split 3 ways.",
+                    "links": [{
+                        "url":"https://github.com/michaelvu97/UltimateTicTacToeAI",
+                        "name":"GitHub"
+                    },
+                    {
+                        "url": "https://twitter.com/daisyintel/status/825802070724902912",
+                        "name": "Announcement"
+                    }]
+                },
+                {
+                    "title":"Dean's List",
+                    "notes": [],
+                    "itemDescription": "CGPA higher than 3.5\nJun 2 2017\nMar 2 2016",
+                    "links": []
+                },
+                {
+                    "title":"U of T President's Entrance Scholarship",
+                    "notes": [],
+                    "itemDescription":"$2000 entrance scholarship",
+                    "links" : []
+                }
+            ]
+        }, 
+        {
+            "sectionName": "Other Skills",
+            "items": [
+                {
+                    "title":"Graphic Design",
+                    "notes": [
+                        "Adobe Photoshop",
+                        "Adobe Illustrator",
+                        "Adobe AfterEffects",
+                        "CSS"
+                    ],
+                    "itemDescription": "Proficient in graphic design and editing",
+                    "links": []
+                },
+                {
+                    "title":"Music Production and Performance",
+                    "notes": [
+                        "FL Studio",
+                        "Adobe Audition",
+                        "Drums",
+                        "Guitar",
+                        "Bass",
+                        "Piano"
+                    ],
+                    "itemDescription":"Perfoming music for over 6 years.\nProducing music since 2013.",
+                    "links": [
+                        {
+                            "url": "https://soundcloud.com/michael-vu-97",
+                            "name": "Soundcloud"
+                        },
+                        {
+                            "url": "https://www.indabamusic.com/people/135524474",
+                            "name": "Indaba Remixes"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "sectionName":"Extra-curriculars",
+            "items": [
+                {
+                    "title":"TrackOne Engineering Mentor",
+                    "notes": [],
+                    "itemDescription": "Mentored incoming first year engineering students.",
+                    "links":[]
+                },
+                {
+                    "title":"Engineering Orientation Leader",
+                    "notes":[],
+                    "itemDescription":"Lead students during the engineering F!rosh Week",
+                    "links":[]
+                },
+                {
+                    "title":"First Year Engineering Spirit Committee",
+                    "notes":[],
+                    "itemDescription":"Helped plan and execute spirit events and installations",
+                    "links":[]
+                }
+            ]
         }
-
     ]
 
 }
