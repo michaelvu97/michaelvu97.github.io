@@ -46,11 +46,14 @@ header {
 }
 .tiles-buffer {
     overflow-y: scroll;   
+    width:100%;
+    flex:1;
 }
 tiles {
     columns: 350px 3;
     max-width:1602px;
     margin: 0px auto;
+    display:block;
 }
 tile {
 }
