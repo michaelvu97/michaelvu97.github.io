@@ -1,3 +1,12 @@
+a {
+    color:#000 !important;
+    font-size: 0.7em;
+    text-decoration: none;
+    background-color: #eee;
+    padding: 5px;
+    margin: 5px;
+    border-radius:2px;
+}
 body {
     font-family: 'Roboto', sans-serif;
 }
@@ -62,14 +71,14 @@ tile {
 .item {
     min-height: 50px;
     border-bottom: 1px solid #eee;
-    padding: 10px 10px;
+    padding: 15px 10px;
 }
 .item.last {
     border: none;
 }
 .item-title {
     font-family: Roboto, sans-serif;
-    padding: 3px;
+    padding: 10px;
 }
 .item-notes {
     display:flex;
@@ -87,13 +96,25 @@ tile {
     flex-grow: 0;
     white-space: nowrap;
 }
+.hover-float {
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.3), 0px 0px 0px 0px rgba(0,0,0,0.6);
+    transition: box-shadow 0.2s;
+}
+.hover-float:hover {
+    box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1), 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
 .item-description {
     list-style-position: inside;
     font-size: 0.8em;
     color: #111;
     line-height:150%;
     padding:4px;
+    margin:4px;
 }
-.item-link {
-
+.item-links {
+    margin:4px;
+    padding:4px;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }

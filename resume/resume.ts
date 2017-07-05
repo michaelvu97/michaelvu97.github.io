@@ -78,7 +78,7 @@ function loadItem(item: Item): string {
         output += `<div class="item-notes">`
 
         notes.forEach(note => {
-            output += `<span>${note}</span>`
+            output += `<span class="hover-float">${note}</span>`
         });
 
         output += `</div>`;
@@ -91,7 +91,7 @@ function loadItem(item: Item): string {
     if (links.length != 0) {
         output += `<div class="item-links">`;
         links.forEach(link => {
-            output += `<a href="${link.url}">${link.name}</a>`
+            output += `<a class="hover-float" href="${link.url}">${link.name}</a>`
         })
         output += `</div>`;
     }
@@ -103,5 +103,9 @@ function loadItem(item: Item): string {
 }
 
 function styleElements(): void {
-    $('.tile-body').children().last().addClass('last');
+    var tiles = $('tile');
+
+    tiles.each((i, tile) => {
+        $(tile).children().children().children('.tile-body').children().last().addClass('last');
+    });
 }

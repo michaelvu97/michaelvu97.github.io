@@ -47,7 +47,7 @@
                     }]
                 },
                 {
-                    "title":"Ontario Doctor Fax Scrape",
+                    "title":"Ontario Doctor Fax Scraper",
                     "notes": [
                         "JS"
                     ],
@@ -127,7 +127,7 @@
                     },
                     {
                         "url":"http://municipal511.ca",
-                        "name":"municipal511"
+                        "name":"Municipal511"
                     }]
                 }
             ]
