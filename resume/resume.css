@@ -18,9 +18,9 @@ body {
     height: 100%;
 }
 header {
-    padding:40px;
+    padding:20px;
     transition: box-shadow 0.2s;
-    max-height: 13vh;
+    max-height: 20vh;
     overflow: hidden;
     z-index: 1000;
 }
