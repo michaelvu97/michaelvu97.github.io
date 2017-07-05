@@ -20,8 +20,9 @@ body {
 header {
     padding:40px;
     transition: box-shadow 0.2s;
-    max-height: 15vh;
+    max-height: 13vh;
     overflow: hidden;
+    z-index: 1000;
 }
 .alt-font {
     font-family: 'Raleway', sans-serif;
