@@ -62,7 +62,7 @@ tile {
 .item {
     min-height: 50px;
     border-bottom: 1px solid #eee;
-    padding: 10px 0px;
+    padding: 10px 10px;
 }
 .item.last {
     border: none;
@@ -90,6 +90,9 @@ tile {
 .item-description {
     list-style-position: inside;
     font-size: 0.8em;
+    color: #111;
+    line-height:150%;
+    padding:4px;
 }
 .item-link {
 

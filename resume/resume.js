@@ -46,7 +46,7 @@ function loadItem(item) {
         output += `</div>`;
     }
     // Add description
-    output += `<div class="item-description">${desc}</div>`;
+    output += `<div class="item-description">${desc.replace('\n', '<br>')}</div>`;
     if (links.length != 0) {
         output += `<div class="item-links">`;
         links.forEach(link => {

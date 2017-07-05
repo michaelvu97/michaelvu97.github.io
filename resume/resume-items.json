@@ -3,7 +3,74 @@
     "tiles": [
 
         {
-            "sectionName": "Projects",
+            "sectionName": "Personal Projects",
+            "items": [
+                {
+                    "title":"This Website",
+                    "notes": [
+                        "Typescript", 
+                        "CSS", 
+                        "HTML", 
+                        "jQuery"
+                    ],
+                    "itemDescription": "You're looking right at it.",
+                    "links": []
+                },
+                {
+                    "title":"Facebook Messenger TeX Bot",
+                    "notes": [
+                        "Node.js", 
+                        "Messenger API",
+                        "Heroku"
+                    ],
+                    "itemDescription": "A messenger bot which receives TeX and compiles/renders to a png",
+                    "links": [{
+                        "url":"https://github.com/michaelvu97/latex-messenger-bot",
+                        "name": "GitHub"
+                    }]
+                },
+                {
+                    "title":"Valentine's Matchmaker Kiosk",
+                    "notes": [
+                        "HTML",
+                        "CSS",
+                        "Node.js", 
+                        "RaspberryPi"
+                    ],
+                    "itemDescription": "Public Valentine's prank installation where people filled out a 'matchmaking' profile, took a photo, and were matched with other users.\nDeveloped the hardware, UI, and everything in between.",
+                    "links": [{
+                        "url":"https://github.com/michaelvu97/Matchmaker",
+                        "name": "GitHub"
+                    }, {
+                        "url": "http://www.photos.skule.ca/1T61T7/Other-Events/Valentines-Day-Matchmaker-",
+                        "name": "Photos"
+                    }]
+                },
+                {
+                    "title":"Ontario Doctor Fax Scrape",
+                    "notes": [
+                        "JS"
+                    ],
+                    "itemDescription": "Made a script to grab all the fax numbers of every Ontario doctor.",
+                    "links": []
+                },
+                {
+                    "title":"Nonverbal Palliative Communication App",
+                    "notes": [
+                        "Java",
+                        "Android"
+                    ],
+                    "itemDescription": "Developed a simple app for communicating pain/symptoms with nonverbal patients.",
+                    "links": [{
+                        "url":"https://play.google.com/store/apps/details?id=com.sinus.nonverbalcommunicationfree",
+                        "name":"Play Store"
+                    }]
+                }
+            ]
+
+        },
+        {
+            "sectionName": "Class Projects",
             "items": [
                 {
                     "title":"GIS Desktop Application",
@@ -17,18 +84,94 @@
                     "links": []
                 },
                 {
-                    "title":"This Website",
+                    "title":"Voltage Solver",
                     "notes": [
-                        "Typescript", 
-                        "CSS", 
-                        "HTML", 
+                        "C++"
+                    ],
+                    "itemDescription": "Resistor/Node network voltage solver\nCommand line input/output",
+                    "links": [{
+                        "url":"https://github.com/michaelvu97/voltage_solver",
+                        "name":"GitHub"
+                    }]
+                },
+                {
+                    "title":"Lodestar",
+                    "notes": [
+                        "Java"
+                    ],
+                    "itemDescription": "Term project with 2 teammates.\nGround-up spaceship shooter game with advanced gameplay mechanics.\nCustom game engine.",
+                    "links": [{
+                        "url":"https://github.com/michaelvu97/voltage_solver",
+                        "name":"GitHub"
+                    }]
+                }
+            ]
+        },
+        {
+            "sectionName": "Work Experience",
+            "items": [
+                {
+                    "title":"Transnomis Solutions: Software Developer",
+                    "notes": [
+                        "HTML",
+                        "CSS",
+                        "JS",
+                        "Typescript",
+                        "C#",
+                        "Google Maps API"
+                    ],
+                    "itemDescription": "May - Aug 2017\nWorked on various data aggregation programs.\nOverhauled public 511 site.",
+                    "links": [{
+                        "url":"http://mirasan.ca",
+                        "name":"Mirasan"
+                    },
+                    {
+                        "url":"http://municipal511.ca",
+                        "name":"municipal511"
+                    }]
+                }
+            ]
+        },
+        {
+            "sectionName": "Programming Languages",
+            "items": [
+                {
+                    "title":"Frontend",
+                    "notes": [
+                        "HTML",
+                        "CSS",
+                        "JS",
+                        "Typescript",
                         "jQuery"
                     ],
-                    "itemDescription": "You're looking right at it.",
+                    "itemDescription": "",
+                    "links": []
+                },
+                {
+                    "title":"High-level",
+                    "notes": [
+                        "Java",
+                        "C#",
+                        "Node.JS",
+                        "Python",
+                        "Android"
+                    ],
+                    "itemDescription": "",
+                    "links": []
+                },
+                {
+                    "title":"Backend",
+                    "notes": [
+                        "C",
+                        "C++",
+                        "Verilog",
+                        "NIOS Assembly",
+                        "PostgreSQL"
+                    ],
+                    "itemDescription": "",
                     "links": []
                 }
             ]
-
         }
 
     ]
