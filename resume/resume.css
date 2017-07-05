@@ -94,6 +94,8 @@ tile {
     font-style: italic;
     font-size: 0.9em;
     flex-wrap: wrap;
+    user-select: none;
+    cursor: default;
 }
 .item-notes span {
     font-family: monospace;
