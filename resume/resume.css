@@ -44,10 +44,11 @@ header {
     color: #111;
     margin:10px;
 }
+.tiles-buffer {
+    overflow-y: scroll;   
+}
 tiles {
-    overflow-y:scroll;
     columns: 350px 3;
-    flex: 1;
     max-width:1602px;
     margin: 0px auto;
 }
