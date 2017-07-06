@@ -16,10 +16,16 @@ function jsonReponse(client) {
     styleElements();
 }
 function loadTile(tile) {
+    // var output = `
+    //     <tile>
+    //         <div class="tile-buffer">
+    //             <div class="tile-content" style="background-color:${tile.color}">
+    //                 <div class="tile-title">${tile.sectionName}</div>
+    //                 <div class="tile-body alt-font">`;
     var output = `
         <tile>
             <div class="tile-buffer">
-                <div class="tile-content" style="background-color:${tile.color}">
+                <div class="tile-content">
                     <div class="tile-title">${tile.sectionName}</div>
                     <div class="tile-body alt-font">`;
     tile.items.forEach(item => {
@@ -62,10 +68,58 @@ function styleElements() {
         $(tile).children().children().children('.tile-body').children().last().addClass('last');
     });
     $('.tiles-buffer').scroll(function () {
-        console.log($('tiles').scrollTop() == 0);
-        if ($('.tiles-buffer').scrollTop() == 0)
+        var scrollTop = $('.tiles-buffer').scrollTop();
+        if (scrollTop == 0)
             $('header').css("box-shadow", "0px 0px 0px rgba(0,0,0,0.3), 0px 0px 0px 0px rgba(0,0,0,0.6)");
         else
             $('header').css("box-shadow", "rgba(0, 0, 0, 0.1) 0px 0px 1px 1px, rgba(0, 0, 0, 0.2) 0px 6px 7px 0px");
+        var maxScrollTop = $('tiles').height() - ($('.content-container').height() - $('header').height());
+        var percentScrolled = scrollTop / maxScrollTop;
+        if (percentScrolled < 0)
+            percentScrolled = 0;
+        if (percentScrolled > 1)
+            percentScrolled = 1;
+        var base = [254, 231, 231];
+        var target = [217, 246, 238];
+        var color = transitionColor(base, target, percentScrolled);
+        console.log(color);
+        $('.tiles-buffer').css("background-color", `rgb(${color[0]}, ${color[1]}, ${color[2]})`);
     });
+    var randColor = HSLToRGB(Math.random(), 0.9, 0.95);
+    console.log(randColor);
+    // $('.tiles-buffer').css("background-color", `rgb(${randColor[0]}, ${randColor[1]}, ${randColor[2]})`);
+}
+function transitionColor(base, target, percent) {
+    var output = [];
+    for (var i = 0; i < base.length; i++) {
+        output.push(Math.floor(base[i] + (target[i] - base[i]) * percent));
+    }
+    return output;
+}
+function HSLToRGB(hue, sat, lightness) {
+    var r, g, b;
+    if (sat == 0) {
+        r = g = b = lightness;
+    }
+    else {
+        var hueToRGB = (p, q, t) => {
+            if (t < 0)
+                t += 1;
+            if (t > 1)
+                t -= 1;
+            if (t < 1 / 6)
+                return p + (q - p) * 6 * t;
+            if (t < 1 / 2)
+                return q;
+            if (t < 2 / 3)
+                return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        };
+        var q = 1 < 0.5 ? lightness * (1 + sat) : lightness + sat - lightness * sat;
+        var p = 2 * lightness - q;
+        r = hueToRGB(p, q, hue + 1 / 3);
+        g = hueToRGB(p, q, hue);
+        b = hueToRGB(p, q, hue - 1 / 3);
+    }
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }

@@ -4,7 +4,7 @@
 
         {
             "sectionName": "Personal Projects",
-            "color": "#EDFFF9",
+            "color": "#ebf9fe",
             "items": [
                 {
                     "title":"This Website",
@@ -72,7 +72,7 @@
         },
         {
             "sectionName": "Class Projects",
-            "color": "#FFEEEA",
+            "color": "#ebf9fe",
             "items": [
                 {
                     "title":"GIS Desktop Application",
@@ -111,7 +111,7 @@
         },
         {
             "sectionName": "Work Experience",
-            "color":"#FFE2E0",
+            "color":"#fff6f4",
             "items": [
                 {
                     "title":"Transnomis Solutions: Software Developer",
@@ -137,7 +137,7 @@
         },
         {
             "sectionName": "Programming Languages",
-            "color":"#FFF2ED",
+            "color":"#fff6f4",
             "items": [
                 {
                     "title":"Frontend",
