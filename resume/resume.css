@@ -116,6 +116,7 @@ tile {
     font-family: Roboto, sans-serif;
     padding: 14px;
     font-size: 1.15em;
+    font-weight: 300;
     text-align:center;
 }
 .item-notes {
