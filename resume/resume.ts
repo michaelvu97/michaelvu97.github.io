@@ -91,7 +91,14 @@ function loadItem(item: Item): string {
     }
 
     // Add description
-    output += `<div class="item-description">${desc.replace('\n','<br>')}</div>`;
+    if (desc != null && desc != "") {
+        var lines = desc.split('\n');
+        output += `<div class="item-description">`;
+        lines.forEach(line => {
+            output += `<div class="item-description-line">${line}</div>`;
+        });
+        output += `</div>`;
+    }
 
     if (links.length != 0) {
         output += `<div class="item-links">`;
