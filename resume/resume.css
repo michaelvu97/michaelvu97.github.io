@@ -113,6 +113,7 @@ tile {
 .item-title {
     font-family: Roboto, sans-serif;
     padding: 10px;
+    text-align:center;
 }
 .item-notes {
     display:flex;
@@ -120,11 +121,12 @@ tile {
     flex-wrap: wrap;
     user-select: none;
     cursor: default;
+    justify-content: center;
 }
 .item-notes span {
     font-family: monospace;
     margin:4px;
-    padding: 4px;
+    padding: 4px 8px;
     background-color:#def0e5;
     border-radius:2px;
     flex: 1;
