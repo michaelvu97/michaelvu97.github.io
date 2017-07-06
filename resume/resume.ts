@@ -107,10 +107,10 @@ function styleElements(): void {
         $(tile).children().children().children('.tile-body').children().last().addClass('last');
     });
 
-    $('tiles-buffer').scroll(function () {
+    $('.tiles-buffer').scroll(function () {
 
         console.log($('tiles').scrollTop() == 0);
-        if ($('tiles-buffer').scrollTop() == 0)
+        if ($('.tiles-buffer').scrollTop() == 0)
             $('header').css("box-shadow", "0px 0px 0px rgba(0,0,0,0.3), 0px 0px 0px 0px rgba(0,0,0,0.6)");
         else 
             $('header').css("box-shadow", "rgba(0, 0, 0, 0.1) 0px 0px 1px 1px, rgba(0, 0, 0, 0.2) 0px 6px 7px 0px");

@@ -58,7 +58,6 @@ tiles {
 tile {
 }
 .tile-buffer {
-    max-width: 80vw;
     padding:10px;
     -webkit-column-break-inside: avoid;
     column-break-inside: avoid;
