@@ -138,7 +138,7 @@ function styleElements(): void {
             percentScrolled = 1;
 
         var base = [254, 231, 231];
-        var target = [217, 246, 238];
+        var target = [246, 217, 198];
 
         var color = transitionColor(base,target,percentScrolled);
         console.log(color);
