@@ -4,6 +4,7 @@
 
         {
             "sectionName": "Personal Projects",
+            "color": "#EDFFF9",
             "items": [
                 {
                     "title":"This Website",
@@ -71,6 +72,7 @@
         },
         {
             "sectionName": "Class Projects",
+            "color": "#FFEEEA",
             "items": [
                 {
                     "title":"GIS Desktop Application",
@@ -109,6 +111,7 @@
         },
         {
             "sectionName": "Work Experience",
+            "color":"#FFE2E0",
             "items": [
                 {
                     "title":"Transnomis Solutions: Software Developer",
@@ -134,6 +137,7 @@
         },
         {
             "sectionName": "Programming Languages",
+            "color":"#FFF2ED",
             "items": [
                 {
                     "title":"Frontend",
@@ -175,6 +179,7 @@
         },
         {
             "sectionName": "Awards",
+            "color": "#FCF7FB",
             "items": [
                 {
                     "title":"2nd Place Daisy Intelligence Hackathon",
@@ -207,6 +212,7 @@
         }, 
         {
             "sectionName": "Other Skills",
+            "color": "#FCF7F7",
             "items": [
                 {
                     "title":"Graphic Design",
@@ -245,6 +251,7 @@
         },
         {
             "sectionName":"Extra-curriculars",
+            "color":"#FFFDF7", 
             "items": [
                 {
                     "title":"TrackOne Engineering Mentor",

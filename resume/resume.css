@@ -66,10 +66,27 @@ tile {
     -ms-column-break-inside: avoid;
 }
 .tile-content {
-    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1), 
-                0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1), 
+                0px 2px 4px 0px rgba(0, 0, 0, 0.2);*/
     padding:10px;
     margin: auto;
+    position:relative;
+}
+.tile-content::after {
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1), 
+                0px 4px 6px 0px rgba(0, 0, 0, 0.2);
+    position:absolute;
+    opacity: 0;
+    z-index: -1;
+    content: '';
+    width:100%;
+    top: 0;
+    left: 0;
+    height:100%;
+    transition: opacity 0.2s;
+}
+.tile-content:hover::after {
+    opacity: 1;
 }
 .tile-title {
     text-align: center;
@@ -112,11 +129,22 @@ tile {
     white-space: nowrap;
 }
 .hover-float {
-    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.3), 0px 0px 0px 0px rgba(0,0,0,0.6);
-    transition: box-shadow 0.2s;
+    position:relative;
 }
-.hover-float:hover {
+.hover-float::after {
+    transition: opacity 0.2s;
+    position:absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    content:'';
+    z-index: -1;
+    top: 0;
+    left: 0;
     box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1), 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
+.hover-float:hover::after {
+    opacity: 1;
 }
 .item-description {
     list-style-position: inside;

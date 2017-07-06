@@ -19,10 +19,9 @@ function loadTile(tile) {
     var output = `
         <tile>
             <div class="tile-buffer">
-                <div class="tile-content">
+                <div class="tile-content" style="background-color:${tile.color}">
                     <div class="tile-title">${tile.sectionName}</div>
                     <div class="tile-body alt-font">`;
-
     tile.items.forEach(item => {
         output += loadItem(item);
     });
