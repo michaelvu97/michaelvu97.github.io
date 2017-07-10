@@ -49,6 +49,7 @@ header {
     width:100%;
     flex:1;
     background: linear-gradient(-74deg,#bfd3ff, #ffe0e0);
+    padding-top:10px;
 }
 tiles {
     columns: 350px 3;
