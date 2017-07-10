@@ -131,24 +131,13 @@ function styleElements(): void {
 
         var maxScrollTop = $('tiles').height() - ($('.content-container').height() - $('header').height());
 
-        var percentScrolled = scrollTop / maxScrollTop;
-        if (percentScrolled < 0)
-            percentScrolled = 0;
-        if (percentScrolled > 1)
-            percentScrolled = 1;
-
-        var base = [254, 231, 231];
-        var target = [246, 217, 198];
-
-        var color = transitionColor(base,target,percentScrolled);
-        console.log(color);
-        $('.tiles-buffer').css("background-color", `rgb(${color[0]}, ${color[1]}, ${color[2]})`);
+        // var percentScrolled = scrollTop / maxScrollTop;
+        // if (percentScrolled < 0)
+        //     percentScrolled = 0;
+        // if (percentScrolled > 1)
+        //     percentScrolled = 1;
 
     });
-
-    var randColor = HSLToRGB(Math.random(), 0.9, 0.95);
-    console.log(randColor);
-    // $('.tiles-buffer').css("background-color", `rgb(${randColor[0]}, ${randColor[1]}, ${randColor[2]})`);
 
 }
 

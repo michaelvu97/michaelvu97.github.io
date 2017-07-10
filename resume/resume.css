@@ -48,7 +48,7 @@ header {
     overflow-y: scroll;   
     width:100%;
     flex:1;
-    background-color: #FEE7E7;
+    background: linear-gradient(-74deg,#bfd3ff, #ffe0e0);
 }
 tiles {
     columns: 350px 3;

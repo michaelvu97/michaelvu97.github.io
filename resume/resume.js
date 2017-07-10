@@ -81,20 +81,12 @@ function styleElements() {
         else
             $('header').css("box-shadow", "rgba(0, 0, 0, 0.1) 0px 0px 1px 1px, rgba(0, 0, 0, 0.2) 0px 6px 7px 0px");
         var maxScrollTop = $('tiles').height() - ($('.content-container').height() - $('header').height());
-        var percentScrolled = scrollTop / maxScrollTop;
-        if (percentScrolled < 0)
-            percentScrolled = 0;
-        if (percentScrolled > 1)
-            percentScrolled = 1;
-        var base = [254, 231, 231];
-        var target = [246, 217, 198];
-        var color = transitionColor(base, target, percentScrolled);
-        console.log(color);
-        $('.tiles-buffer').css("background-color", `rgb(${color[0]}, ${color[1]}, ${color[2]})`);
+        // var percentScrolled = scrollTop / maxScrollTop;
+        // if (percentScrolled < 0)
+        //     percentScrolled = 0;
+        // if (percentScrolled > 1)
+        //     percentScrolled = 1;
     });
-    var randColor = HSLToRGB(Math.random(), 0.9, 0.95);
-    console.log(randColor);
-    // $('.tiles-buffer').css("background-color", `rgb(${randColor[0]}, ${randColor[1]}, ${randColor[2]})`);
 }
 function transitionColor(base, target, percent) {
     var output = [];
