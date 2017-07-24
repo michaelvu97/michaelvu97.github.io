@@ -182,6 +182,14 @@
             "color": "#FCF7FB",
             "items": [
                 {
+                    "title":"Crowd Favourite at Nanoleaf Aurora Hardware Hackathon",
+                    "notes": [
+                        "C", "C++", "Signal Processing"
+                    ],
+                    "itemDescription":"Created a dynamic music visualizer with effects for different eq bands.\nJuly 23, 2017",
+                    "links": []
+                },
+                {
                     "title":"2nd Place Daisy Intelligence Hackathon",
                     "notes": [
                         "C"
