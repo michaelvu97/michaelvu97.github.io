@@ -121,7 +121,9 @@
                         "JS",
                         "Typescript",
                         "C#",
-                        "Google Maps API"
+                        "Google Maps API",
+                        "ASP.NET Razor",
+                        "PostgreSQL"
                     ],
                     "itemDescription": "May 2017 to August 2017\nWorked on various data aggregation programs.\nOverhauled public 511 site.",
                     "links": [{
@@ -159,7 +161,7 @@
                         "Node.JS",
                         "Python",
                         "Android",
-                        "ASP.NET MVC"
+                        "ASP.NET Razor"
                     ],
                     "itemDescription": "",
                     "links": []
