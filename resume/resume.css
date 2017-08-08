@@ -13,13 +13,22 @@ body {
     overflow: hidden;
 }
 .content-container {
+    display:-webkit-box;
+    display:-ms-flexbox;
     display:flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     height: 100%;
 }
 header {
     padding:20px;
+    -webkit-transition: -webkit-box-shadow 0.2s;
+    transition: -webkit-box-shadow 0.2s;
+    -o-transition: box-shadow 0.2s;
     transition: box-shadow 0.2s;
+    transition: box-shadow 0.2s, -webkit-box-shadow 0.2s;
     max-height: 20vh;
     overflow: hidden;
     z-index: 1000;
@@ -47,12 +56,18 @@ header {
 .tiles-buffer {
     overflow-y: scroll;   
     width:100%;
-    flex:1;
+    -webkit-box-flex:1;
+        -ms-flex:1;
+            flex:1;
+    background: -webkit-linear-gradient(164deg,#bfd3ff, #ffe0e0);
+    background: -o-linear-gradient(164deg,#bfd3ff, #ffe0e0);
     background: linear-gradient(-74deg,#bfd3ff, #ffe0e0);
     padding-top:10px;
 }
 tiles {
-    columns: 350px 3;
+    -webkit-columns: 350px 3;
+       -moz-columns: 350px 3;
+            columns: 350px 3;
     max-width:1602px;
     margin: 0px auto;
     display:block;
@@ -78,7 +93,9 @@ tile {
     border-radius: 2px;
 }
 .tile-content::after {
-    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1), 
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1), 
+                0px 4px 6px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1), 
                 0px 4px 6px 0px rgba(0, 0, 0, 0.2);
     position:absolute;
     opacity: 0;
@@ -88,6 +105,8 @@ tile {
     top: 0;
     left: 0;
     height:100%;
+    -webkit-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
     transition: opacity 0.2s;
 }
 .tile-content:hover::after {
@@ -121,12 +140,20 @@ tile {
     text-align:center;
 }
 .item-notes {
+    display:-webkit-box;
+    display:-ms-flexbox;
     display:flex;
     font-size: 0.9em;
-    flex-wrap: wrap;
-    user-select: none;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
     cursor: default;
-    justify-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 
 }
 .item-notes span {
@@ -136,14 +163,20 @@ tile {
     padding: 4px 8px;
     background-color:#def0e5;
     border-radius:2px;
-    flex: 1;
-    flex-grow: 0;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    -webkit-box-flex: 0;
+        -ms-flex-positive: 0;
+            flex-grow: 0;
     white-space: nowrap;
 }
 .hover-float {
     position:relative;
 }
 .hover-float::after {
+    -webkit-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
     transition: opacity 0.2s;
     position:absolute;
     opacity: 0;
@@ -153,7 +186,8 @@ tile {
     z-index: 1;
     top: 0;
     left: 0;
-    box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1), 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1), 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.1), 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
 }
 .hover-float:hover::after {
     opacity: 1;
@@ -173,7 +207,12 @@ tile {
 .item-links {
     margin:4px;
     padding:4px;
+    display:-webkit-box;
+    display:-ms-flexbox;
     display:flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
