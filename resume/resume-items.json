@@ -123,9 +123,10 @@
                         "C#",
                         "Google Maps API",
                         "ASP.NET Razor",
-                        "PostgreSQL"
+                        "PostgreSQL",
+                        "SVN"
                     ],
-                    "itemDescription": "May 2017 to August 2017\nWorked on various data aggregation programs.\nOverhauled public 511 site.",
+                    "itemDescription": "May 2017 to August 2017\nWorked on various data aggregation programs.\nOverhauled full stack on public 511 site.\nCreated route planning interface.\nCreate a travel time regression analysis program.\nConverted main site to responsive, mobile-friendly design.",
                     "links": [{
                         "url":"http://mirasan.ca",
                         "name":"Mirasan"
@@ -133,6 +134,10 @@
                     {
                         "url":"http://municipal511.ca",
                         "name":"Municipal511"
+                    },
+                    {
+                        "url":"http://mirasan.ca",
+                        "name":"Mirasan"
                     }]
                 }
             ]
@@ -177,6 +182,15 @@
                     ],
                     "itemDescription": "",
                     "links": []
+                },
+                {
+                    "title" : "Other",
+                    "notes": [
+                        "SVN",
+                        "Git"
+                    ],
+                    "itemDescription": "",
+                    "links":[]
                 }
             ]
         },
