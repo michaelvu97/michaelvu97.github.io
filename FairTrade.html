@@ -2,8 +2,9 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Fair Trade Business Finder</title>
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet"> 
-        <link rel="icon" type="image/png" href="http://michaelvu97.github.io/FairTrade.icon.png">
+        <link rel="icon" type="image/png" href="http://michaelvu97.github.io/FairTrade/icon.png">
         <style>
             html, body {
                 height: 100%;
@@ -13,8 +14,7 @@
                 font-weight: 300;
                 font-family: 'Roboto', sans-serif;
             }
-            body {
-                display: flex;
+            body {                display: flex;
                 flex-direction: column;
             }
             #titlebar{
@@ -27,6 +27,7 @@
             #titlebar #title {
                 font-size: 36px;
                 font-weight: bold;
+                color: #333;
             }
             #titlebar #infosectionbuffer {
 
@@ -39,6 +40,11 @@
             }
             #titlebar a {
                 text-decoration: none;
+                color: #333;
+            }
+            #author {
+                padding: 0px 0px 6px 0px;
+                font-size: 12px;
                 color: #333;
             }
             #map {
@@ -224,10 +230,14 @@
         <div id="titlebar">
             <div id="title">Fair Trade Business Map</div>
             <div id="infosectionbuffer">
+                <div id="author">
+                    By Michael Vu
+                </div>
                 <div id="infosection">
                     <a href="https://www.fairtrade.net/about-fairtrade/what-is-fairtrade.html">
                         What is fair trade?</a>
                 </div>
+                
             </div>
         </div>
         <div id="mapContainer">
