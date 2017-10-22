@@ -3,17 +3,55 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet"> 
+        <link rel="icon" type="image/png" href="http://michaelvu97.github.io/FairTrade.icon.png">
         <style>
             html, body {
                 height: 100%;
                 width: 100%;
                 margin: 0px;
                 padding: 0px;
+                font-weight: 300;
                 font-family: 'Roboto', sans-serif;
             }
+            body {
+                display: flex;
+                flex-direction: column;
+            }
+            #titlebar{
+                display: block;
+                flex: 1 1 auto;
+                text-align: center;
+                padding: 10px 0px;
+                box-shadow: inset 0px 1px 3px 2px rgba(0,0,0,0.2);
+            }
+            #titlebar #title {
+                font-size: 36px;
+                font-weight: bold;
+            }
+            #titlebar #infosectionbuffer {
+
+            }
+            #titlebar #infosection {
+                display: inline-block;
+                border-radius: 2px;
+                padding: 5px;
+                box-shadow: 0px 1px 3px 2px rgba(0,0,0,0.2);
+            }
+            #titlebar a {
+                text-decoration: none;
+                color: #333;
+            }
             #map {
+                position: absolute;
                 width: 100%;
+                top: 0px;
+                bottom: 0px;
+            }
+            #mapContainer {
+                position: relative;
                 height: 100%;
+                width: 100%;
+                flex: 1 1 auto;
             }
             #InfoWindowTitle {
                 text-align: center;
@@ -28,11 +66,12 @@
             }
             .product {
                 display: inline-block;
-                background-color: #f0f0f0;
+                /*background-color: #f0f0f0;*/
+                background-color: #fff;
                 text-align: center;
                 margin-bottom: 6px;
                 border-radius: 2px;
-                box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.1);
+                box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.2);
                 padding: 5px;
             }
             #InfoWindowBody > table {
@@ -43,6 +82,18 @@
             }
             .gm-style-iw {
                 max-width: 33vw;
+            }
+            tr > td:nth-child(1) {
+                font-weight: 400;
+            }
+            tr:nth-child(odd) {
+                background-color: #f0f0f0;
+            }
+            td {
+                padding: 4px 8px;
+            }
+            table {
+                border-collapse: collapse;
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -136,7 +187,6 @@
 
                 });
             }
-
             function initMap() {
                 map = new google.maps.Map($("#map")[0], {
                     center: {lat: 43.667338, lng: -79.395040},
@@ -149,7 +199,6 @@
 
                 icon = {
                     url: "http://michaelvu97.github.io/FairTrade/icon.png",
-                    scaledSize: {height: 32, width: 32}
                 };
 
                 map.addListener('click', function(data) {
@@ -172,6 +221,17 @@
         
     </head>
     <body>
-        <div id="map"></div>
+        <div id="titlebar">
+            <div id="title">Fair Trade Business Map</div>
+            <div id="infosectionbuffer">
+                <div id="infosection">
+                    <a href="https://www.fairtrade.net/about-fairtrade/what-is-fairtrade.html">
+                        What is fair trade?</a>
+                </div>
+            </div>
+        </div>
+        <div id="mapContainer">
+            <div id="map"></div>
+        </div>
     </body>
 </html>
