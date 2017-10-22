@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             html, body {
                 height: 100%;
@@ -21,8 +22,6 @@
             function onDataLoad(data) {
                 // Wow this is hacky, python doesn't wrap the array as an object
                 data.forEach(function (place) {
-                    if (place["cert_status"] != "Certified")
-                        return;
 
                     if (!place.hasOwnProperty("lat") || !place.hasOwnProperty("lng")) {
                         console.log("missing coords");
@@ -37,8 +36,34 @@
                         title: place["op_name"]
                     });
 
+                    var contentString = 
+                    "<div id=\"InfoWindowContent\">" +
+                        "<div id=\"InfoWindowTitle\">" +
+                            place["op_name"] +
+                        "</div>" + 
+                        "<div id=\"InfoWindowBody\">" + 
+                            "<div>" +
+                                "Licensing Status: " + place["lic_status"] +
+                            "</div>" + 
+                            (place["lic_body"] != "(Not Specified)" ? "<div>" + place["lic_body"] + "</div>" : "") + 
+                            "<div id=\"certifcation " + place["cert_status"] + "\">" + 
+                                "Certification Status: " + place["cert_status"] + 
+                            "</div>";
+                    if (place.hasOwnProperty("cert_standard") && place["cert_standard"].length > 0) {
+                        contentString += "<div id=\"certStandard\">";
+                        place["cert_standard"].forEach(function (standard) {
+                            contentString += standard + "</br>";
+                        });
+                        contentString += "</div>";
+                    }
+
+                    contentString +=
+                        "</div>"
+                    "</div>";
+
                     marker.addListener('click', function() {
-                        infoWindow.setContent(place["op_name"]);
+                        infoWindow.setContent(contentString);
+                        infoWindow.setPosition()
                         infoWindow.open(map, marker);
                     })
 
@@ -55,6 +80,10 @@
                 infoWindow = new google.maps.InfoWindow({
                     content: ""
                 });
+
+                map.addListener('click', function(data) {
+                    infoWindow.close();
+                })
 
                 console.log("map loaded");
 
