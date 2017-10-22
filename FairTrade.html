@@ -1,8 +1,77 @@
+<!DOCTYPE html>
 <html>
     <head>
+        <style>
+            html, body {
+                height: 100%;
+                width: 100%;
+                margin: 0px;
+                padding: 0px;
+            }
+            #map {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            
+            var map, infoWindow;
 
+            function onDataLoad(data) {
+                // Wow this is hacky, python doesn't wrap the array as an object
+                data.forEach(function (place) {
+                    if (place["cert_status"] != "Certified")
+                        return;
+
+                    if (!place.hasOwnProperty("lat") || !place.hasOwnProperty("lng")) {
+                        console.log("missing coords");
+                        return;
+                    }
+                    var latlng = {lat: place["lat"], lng: place["lng"]};
+
+                    var marker = new google.maps.Marker({
+                        clickable: true,
+                        position: latlng,
+                        map: map,
+                        title: place["op_name"]
+                    });
+
+                    marker.addListener('click', function() {
+                        infoWindow.setContent(place["op_name"]);
+                        infoWindow.open(map, marker);
+                    })
+
+
+                });
+            }
+
+            function initMap() {
+                map = new google.maps.Map($("#map")[0], {
+                    center: {lat: 43.667338, lng: -79.395040},
+                    zoom: 4
+                });
+
+                infoWindow = new google.maps.InfoWindow({
+                    content: ""
+                });
+
+                console.log("map loaded");
+
+                // read json
+                $.ajax({
+                    url: 'http://michaelvu97.github.io/FairTrade/output.json',
+                    success: function(data) {
+                        onDataLoad(data);
+                    }
+                })
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABrk2JBaddhpDKJ-DEp726mHPeyz6Y7No&callback=initMap" 
+        async defer></script>
+        
     </head>
     <body>
-        
+        <div id="map"></div>
     </body>
 </html>
