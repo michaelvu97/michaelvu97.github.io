@@ -2,16 +2,47 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet"> 
         <style>
             html, body {
                 height: 100%;
                 width: 100%;
                 margin: 0px;
                 padding: 0px;
+                font-family: 'Roboto', sans-serif;
             }
             #map {
                 width: 100%;
                 height: 100%;
+            }
+            #InfoWindowTitle {
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .certification.certified {
+                color: green;
+            }
+            .certification.uncertified {
+                color: orange;
+            }
+            .product {
+                display: inline-block;
+                background-color: #f0f0f0;
+                text-align: center;
+                margin-bottom: 6px;
+                border-radius: 2px;
+                box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.1);
+                padding: 5px;
+            }
+            #InfoWindowBody > table {
+                width: 100%;
+            }
+            #InfoWindowBody > table > tbody > tr > td {
+                padding-bottom: 5px;
+            }
+            .gm-style-iw {
+                max-width: 33vw;
             }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -41,24 +72,58 @@
                         "<div id=\"InfoWindowTitle\">" +
                             place["op_name"] +
                         "</div>" + 
-                        "<div id=\"InfoWindowBody\">" + 
-                            "<div>" +
-                                "Licensing Status: " + place["lic_status"] +
-                            "</div>" + 
-                            (place["lic_body"] != "(Not Specified)" ? "<div>" + place["lic_body"] + "</div>" : "") + 
-                            "<div id=\"certifcation " + place["cert_status"] + "\">" + 
-                                "Certification Status: " + place["cert_status"] + 
-                            "</div>";
-                    if (place.hasOwnProperty("cert_standard") && place["cert_standard"].length > 0) {
-                        contentString += "<div id=\"certStandard\">";
+                        "<div id=\"InfoWindowBody\"><table>" + 
+
+                            "<tr>" +
+                                "<td>Licensing Status</td><td>" + place["lic_status"] +
+                            "</td></tr>";
+
+
+                    if (place["lic_body"] !== "(Not Specified)") {
+                        contentString += "<tr><td>Licensing Body</td><td>" + 
+                            place["lic_body"] +
+                            "</td></tr>"
+                    }
+
+                    var certificationClass = "";
+                    if (place["cert_status"] === "Certified")
+                        certificationClass = "certified";
+                    else
+                        certificationClass = "uncertified";
+
+                    contentString += 
+                        "<tr class=\"certification " + certificationClass + "\">" + 
+                            "<td>Certification Status</td><td>" + place["cert_status"] + 
+                        "</td></div>";
+
+                    if (place.hasOwnProperty("cert_standard") 
+                        && place["cert_standard"].length > 0
+                        && place["cert_standard"][0] !== "(Not Specified)") {
+                        contentString += "<tr id=\"certStandard\"><td>Standard</td><td>";
                         place["cert_standard"].forEach(function (standard) {
                             contentString += standard + "</br>";
                         });
-                        contentString += "</div>";
+                        contentString += "</td></tr>";
+                    }
+
+                    if (place["cert_body"] !== "(Not Available Yet)" 
+                        && place["cert_body"] !== "(Not Specified)")
+                        contentString += "<tr><td>Certification Body</td><td>" + place["cert_body"] + 
+                            "</td</div>";
+
+
+                    if (place["cert_product"] 
+                        && place["cert_product"].length > 0
+                        && place["cert_product"][0] !== "(Not Specified)") {
+                        contentString += "<tr id=\"products\"><td>Products</td><td>";
+                        place["cert_product"].forEach(function (product) {
+                            contentString += "<div class=\"product\">" + product + "</div></br>";
+                        });
+                        contentString += "</td></tr>"
                     }
 
                     contentString +=
-                        "</div>"
+                        "</table></div>"
                     "</div>";
 
                     marker.addListener('click', function() {
