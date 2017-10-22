@@ -48,7 +48,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
             
-            var map, infoWindow;
+            var map, infoWindow, icon;
 
             function onDataLoad(data) {
                 // Wow this is hacky, python doesn't wrap the array as an object
@@ -64,7 +64,8 @@
                         clickable: true,
                         position: latlng,
                         map: map,
-                        title: place["op_name"]
+                        title: place["op_name"],
+                        icon: icon
                     });
 
                     var contentString = 
@@ -145,6 +146,11 @@
                 infoWindow = new google.maps.InfoWindow({
                     content: ""
                 });
+
+                icon = {
+                    url: "http://michaelvu97.github.io/FairTrade/icon.png",
+                    scaledSize: {height: 32, width: 32}
+                };
 
                 map.addListener('click', function(data) {
                     infoWindow.close();
