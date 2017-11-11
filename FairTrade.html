@@ -102,12 +102,257 @@
                 border-collapse: collapse;
             }
         </style>
+        <script type="text/javascript">
+            // ref: http://stackoverflow.com/a/1293163/2343
+            // This will parse a delimited string into an array of
+            // arrays. The default delimiter is the comma, but this
+            // can be overriden in the second argument.
+            function CSVToArray( strData, strDelimiter ){
+                // Check to see if the delimiter is defined. If not,
+                // then default to comma.
+                strDelimiter = (strDelimiter || ",");
+
+                // Create a regular expression to parse the CSV values.
+                var objPattern = new RegExp(
+                    (
+                        // Delimiters.
+                        "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+
+                        // Quoted fields.
+                        "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+
+                        // Standard fields.
+                        "([^\"\\" + strDelimiter + "\\r\\n]*))"
+                    ),
+                    "gi"
+                    );
+
+
+                // Create an array to hold our data. Give the array
+                // a default empty first row.
+                var arrData = [[]];
+
+                // Create an array to hold our individual pattern
+                // matching groups.
+                var arrMatches = null;
+
+
+                // Keep looping over the regular expression matches
+                // until we can no longer find a match.
+                while (arrMatches = objPattern.exec( strData )){
+
+                    // Get the delimiter that was found.
+                    var strMatchedDelimiter = arrMatches[ 1 ];
+
+                    // Check to see if the given delimiter has a length
+                    // (is not the start of string) and if it matches
+                    // field delimiter. If id does not, then we know
+                    // that this delimiter is a row delimiter.
+                    if (
+                        strMatchedDelimiter.length &&
+                        strMatchedDelimiter !== strDelimiter
+                        ){
+
+                        // Since we have reached a new row of data,
+                        // add an empty row to our data array.
+                        arrData.push( [] );
+
+                    }
+
+                    var strMatchedValue;
+
+                    // Now that we have our delimiter out of the way,
+                    // let's check to see which kind of value we
+                    // captured (quoted or unquoted).
+                    if (arrMatches[ 2 ]){
+
+                        // We found a quoted value. When we capture
+                        // this value, unescape any double quotes.
+                        strMatchedValue = arrMatches[ 2 ].replace(
+                            new RegExp( "\"\"", "g" ),
+                            "\""
+                            );
+
+                    } else {
+
+                        // We found a non-quoted value.
+                        strMatchedValue = arrMatches[ 3 ];
+
+                    }
+
+
+                    // Now that we have our value string, let's add
+                    // it to the data array.
+                    arrData[ arrData.length - 1 ].push( strMatchedValue );
+                }
+
+                // Return the parsed data.
+                return( arrData );
+            }
+
+        </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
             
             var map, infoWindow, icon;
 
-            function onDataLoad(data) {
+            function strIsNullOrWhitespace(str) {
+                if (typeof str !== "string")
+                    return true;
+
+                if (str == null)
+                    return true;
+
+                if (str === "")
+                    return true;
+
+                if (sanitizeString(str) == "")
+                    return true;
+
+                return false;
+            }
+
+            function sanitizeString(str) {
+
+                // Remove whitespace
+                var i = 0;
+                while ((i = str.indexOf(" ")) != -1) {
+                    str = str.substring(0, i) + 
+                        (i != str.length - 1 ? str.substring(i + 1) : "");
+                }
+
+                // Lower case
+                str = str.toLowerCase();
+
+                return str;
+            }
+
+            function evalYesNo(str) {
+                str = sanitizeString(str);
+                if (strIsNullOrWhitespace(str))
+                    return false;
+
+                if (str === "yes")
+                    return true;
+
+                return false;
+            }
+
+            function onUoftCsvDataLoad(data) {
+                var d = CSVToArray(data);
+
+                var objectOutput = [];
+
+                /* Array indicies:
+                    0: Location Name
+                    1: ??? Some name
+                    2: Manager name
+                    3: Contact
+                    4: FT Interest (1-5)
+                    5: Coffee
+                    6: FT Coffee
+                    7: Tea
+                    8: FT Tea
+                    9: Chocolate
+                    10: FT Chocolate
+                    11: Coffee supplier
+                    12: FT Coffee supplier
+                    13: Tea supplier
+                    14: FT Tea supplier
+                    15: Chocolate supplier
+                    16: FT Chocolate supplier
+                    17: Additional Info
+                    18: (future latlng)
+                */
+                d.forEach(function (place) {
+                    /*
+                     * Build the things
+                     */ 
+                    var locationName = place[0];
+                    // TODO : latlng 
+
+                    var obj = {
+                        locationName: locationName
+                    };
+
+
+                    var hasAnyFairTrade = false;
+                    /*
+                     * Coffee
+                     */
+                    if (evalYesNo(place[6])) {
+                        var supplier = "";
+                        if (!strIsNullOrWhitespace(place[12])) {
+                            supplier = place[12];
+                        } else if (!strIsNullOrWhitespace(place[11])){
+                            supplier = place[11];
+                        } else {
+                            supplier = "";
+                        }
+
+                        if (supplier !== "")
+                            hasAnyFairTrade = true;
+
+                        obj["coffee"] = {
+                            supplier: supplier
+                        };
+                    }
+
+                    /*
+                     * Tea
+                     */
+                    if (evalYesNo(place[8])) {
+                        var supplier = "";
+                        if (!strIsNullOrWhitespace(place[14])) {
+                            supplier = place[14];
+                        } else if (!strIsNullOrWhitespace(place[13])){
+                            supplier = place[13];
+                        } else {
+                            supplier = "";
+                        }
+
+                        if (supplier !== "")
+                            hasAnyFairTrade = true;
+
+                        obj["tea"] = {
+                            supplier: supplier
+                        };
+                    }
+
+                    /*
+                     * Chocolate
+                     */
+                    if (evalYesNo(place[10])) {
+                        var supplier = "";
+                        if (!strIsNullOrWhitespace(place[16])) {
+                            supplier = place[16];
+                        } else if (!strIsNullOrWhitespace(place[15])){
+                            supplier = place[15];
+                        } else {
+                            supplier = "";
+                        }
+
+                        if (supplier !== "")
+                            hasAnyFairTrade = true;
+
+                        obj["chocolate"] = {
+                            supplier: supplier
+                        };
+                    }
+
+                    if (hasAnyFairTrade) {
+                        objectOutput.push(obj);
+                    }
+
+                });
+                
+                objectOutput.forEach(function (place) {
+                    console.log(place);
+                })
+
+            }
+
+            function onJsonDataLoad(data) {
                 // Wow this is hacky, python doesn't wrap the array as an object
                 data.forEach(function (place) {
 
@@ -217,7 +462,14 @@
                 $.ajax({
                     url: 'http://michaelvu97.github.io/FairTrade/output.json',
                     success: function(data) {
-                        onDataLoad(data);
+                        onJsonDataLoad(data);
+                    }
+                })
+
+                $.ajax({
+                    url: 'http://michaelvu97.github.io/FairTrade/Uoft.csv',
+                    success: function(data) {
+                        onUoftCsvDataLoad(data);
                     }
                 })
             }
