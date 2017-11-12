@@ -64,7 +64,7 @@
                 font-size: 24px;
                 font-weight: bold;
             }
-            .certification.certified {
+            .certification.certified, .green {
                 color: green;
             }
             .certification.uncertified {
@@ -262,17 +262,21 @@
                     15: Chocolate supplier
                     16: FT Chocolate supplier
                     17: Additional Info
-                    18: (future latlng)
+                    18: latlng
                 */
                 d.forEach(function (place) {
                     /*
                      * Build the things
                      */ 
                     var locationName = place[0];
-                    // TODO : latlng 
+                    var latlngString = place[18].split(",");
+                    var lat = parseFloat(latlngString[0]);
+                    var lng = parseFloat(latlngString[1]);
 
                     var obj = {
-                        locationName: locationName
+                        locationName: locationName,
+                        lat: lat,
+                        lng: lng
                     };
 
 
@@ -345,9 +349,49 @@
                     }
 
                 });
+
+               
                 
                 objectOutput.forEach(function (place) {
-                    console.log(place);
+                    var contentString = 
+                        "<div id=\"InfoWindowContent\">" +
+                            "<div id=\"InfoWindowTitle\">" +
+                                place["locationName"] +
+                            "</div>" + 
+                            "<div id=\"InfoWindowBody\">" +
+                                "<table>";
+
+                    var keys = ["Chocolate", "Tea", "Coffee"];
+
+                    keys.forEach(function (key) {
+
+                        var lowerKey = key.toLowerCase();
+
+                        if (place.hasOwnProperty(lowerKey)) {
+                            contentString += "<tr class=\"green\"><td>" + key + "</td><td>"
+                            contentString += place[lowerKey]["supplier"]
+                            contentString += "</td></tr>"
+                        }
+                    });
+
+                    contentString += "</table></div></div>";
+
+                    console.log()
+
+                    var marker = new google.maps.Marker({
+                        clickable: true,
+                        position: {lat: place["lat"], lng: place["lng"]},
+                        map: map,
+                        title: place["locationName"],
+                        icon: icon
+                    });
+
+                    marker.addListener('click', function() {
+                        infoWindow.setContent(contentString);
+                        // infoWindow.setPosition({lat: place["lat"], lng: place["lng"]});
+                        infoWindow.open(map, marker);
+                    })
+
                 })
 
             }
@@ -357,7 +401,7 @@
                 data.forEach(function (place) {
 
                     if (!place.hasOwnProperty("lat") || !place.hasOwnProperty("lng")) {
-                        console.log("missing coords");
+                        console.info("missing coords");
                         return;
                     }
                     var latlng = {lat: place["lat"], lng: place["lng"]};
@@ -431,7 +475,7 @@
 
                     marker.addListener('click', function() {
                         infoWindow.setContent(contentString);
-                        infoWindow.setPosition()
+                        // infoWindow.setPosition()
                         infoWindow.open(map, marker);
                     })
 
